@@ -1,0 +1,455 @@
+\chapter{Single Link}
+
+\section{Parametri di Canale}
+\subsection{Capacità di canale}
+La \textbf{Capacità} di un canale è il massimo rate a cui è possibile trasmettere, avendo una probabilità di errore piccola a piacere:
+\begin{equation*}
+    C = B\log_2(1 + SNR) \ [bit/s]
+\end{equation*}
+
+Da notare è che la capacità non dipende nè dalla modulazione nè dalla codifica di canale in uso.
+\\
+
+\subsection{Efficienza Energetica}
+L'\textbf{Efficienza Energetica} di un canale di comunicazione misura quanti bit possono essere trasmessi in maniera affidabile per Joule di energia consumata:
+\begin{equation*}
+    EE =\frac{C}{P_t} = \frac{B\log_2(1 + SNR)}{\mu p + P_c}  \ [bit/J]
+\end{equation*}
+
+dove:
+\begin{itemize}
+    \item $\mu \geq 1$ è l'inverso dell'efficienza dell'amplificazione di trasmissione
+    \item $P_c$ è la potenza generata dai circuiti del sistema che dipende dal sistema utilizzato.
+\end{itemize}
+%------------------------------------------------------------------------------------%
+\pagebreak 
+
+
+\section{Canale SISO (Single Input Single Output)}
+Consideriamo una singola antenna in trasmissione e in ricezione.\\
+
+Il segnale ricevuto è:
+\begin{equation*}
+    r = \sqrt{p} h s + n
+\end{equation*}
+
+L'SNR sarà: 
+\begin{equation*}
+    SNR = \frac{|\sqrt{p}h|^2 \av{|s|^2}} {\av{|n|^2}} = \frac{p|h|^2}{\sigma^2}
+\end{equation*}
+
+La \textbf{Capacità} del canale \textbf{SISO} è:
+\begin{equation*}
+    C_{SISO} = B\log_2 \left(1 +  \frac{p|h|^2}{\sigma^2} \right) \ [bit/s]
+\end{equation*}
+
+L'\textbf{Efficienza Energetica} del canale \textbf{SISO} è:
+\begin{equation*}
+    EE_{SISO} =\frac{B\log_2 \left(1 +  \frac{p|h|^2}{\sigma^2} \right)}{\mu p + P_c} \ [bit/J]
+\end{equation*}
+%------------------------------------------------------------------------------------%
+\pagebreak 
+
+
+\section{Canale SIMO (Single Input Multiple Output)}
+Consideriamo un canale \textbf{Flat-Fading} per una trasmissione in cui abbiamo una sola antenna trasmittente (antenna che immette l'input) e più antenne riceventi (antenne di output).\\
+
+Il segnale ricevuto dall'l-esima antenna è:
+\begin{equation*}
+    r_l = \sqrt{p} h_l s + n
+\end{equation*}
+
+Quindi la BS riceve un vettore L x 1 dato da:
+\begin{equation*}
+    \vc{r} = \begin{bmatrix}
+    r_1\\.\\.\\.\\r_L
+    \end{bmatrix} = 
+    \sqrt{p} \begin{bmatrix}
+    h_1\\.\\.\\.\\h_L
+    \end{bmatrix} s + 
+    \begin{bmatrix}
+    n_1\\.\\.\\.\\n_L
+    \end{bmatrix} = \sqrt{p} \ \vc{h} \ s + \vc{n}
+\end{equation*}
+
+$\vc{n} \sim  CN(0,\sigma^2 \vc{I})$ i.i.d.
+\\
+
+\subsection{Capacità del canale SIMO}
+\begin{equation*}
+    C_{SIMO} = B\log_2 \left(1 + \frac{p||\vc{h}||^2}{\sigma^2}\right)  \ [bit/s]
+\end{equation*}
+\\
+
+\subsection{EE del canale SIMO}
+\begin{equation*}
+    E_{SIMO} = \frac{B\log_2 \left(1 + \frac{p||\vc{h}||^2}{\sigma^2}\right)}{\mu p + P_c}  \ [bit/J]
+\end{equation*}
+\\
+
+\subsection{Filtro Adattato / MRC per Canali SIMO}
+Si può raggiungere la capacità del canale SIMO \textbf{filtrando linearmente} il vettore ricevuto:
+\begin{equation*}
+    y = \vc{c}^H \vc{r} = \sqrt{p} \ \vc{c}^H \vc{h}\ s + \vc{c}^H \vc{n} = \sqrt{p}z+w
+\end{equation*}
+
+Quindi dopo il filtro l'SNR sarà:
+\begin{equation*}
+    SNR = \frac{p\av{|z|^2}}{\av{|w|^2}}
+\end{equation*}
+
+Esaminando il termine al numeratore:
+\begin{equation*}
+   p\av{|z|^2} = p\av{|s|^2} \ |\vc{c}^H \vc{h}|^2 = p|\vc{c}^H \vc{h}|^2 \leq p \ ||\vc{c}||^2 \ ||\vc{h}||^2 \ \text{Per Shwartz}
+\end{equation*}
+
+Quindi si raggiunge l'uguaglianza quando \vc{c} e \vc{h} sono \textbf{paralleli}.\\
+
+Esaminando ora il denominatore, capiamo che w è ancora una variabile aleatoria Gaussiana, quindi:
+
+\begin{equation*}
+\begin{aligned}
+    &\av{w} = \vc{c}^H \ \av{n} = 0 \\
+    &\av{|w|^2} = \av{w \ w^*} = \vc{c}^H \av{\vc{n} \ \vc{n}^H} \ \vc{c} = \sigma^2 ||\vc{c}||^2
+\end{aligned}
+\end{equation*}
+
+Quindi Il \textbf{Massimo SNR} ottenibile dopo il filtro è:
+\begin{equation*}
+    SNR =\frac{p|\vc{h}|^2 \cancel{||\vc{c}||^2} }{\sigma^2 \cancel{||\vc{c}||^2}} = \frac{p||\vc{h}||^2}{\sigma^2}
+\end{equation*}
+
+che può essere ottenuto scegliendo \vc{c} = $\alpha$ \vc{h}.\\
+
+Tale filtro si dice \textbf{Filtro Adattato} oppure \textbf{Maximum Reciver Combining} (MRC)
+\\
+
+\subsection{Antenna Selection}
+Con il metodo di \textbf{Antenna Selection} si riceve solo dall'antenna con il canale migliore:
+\begin{equation*}
+    \hat{h} = \max_{l\in[1,L]} |h_l|
+\end{equation*}
+
+Il suo SNR sarà:
+\begin{equation*}
+    SNR = \frac{p|\hat{h}|^2}{\sigma^2}
+\end{equation*}
+
+Quindi avremmo:
+\begin{equation*}
+    \begin{aligned}
+    &R = \rate{p|\hat{h}|^2}{\sigma^2}
+    \\[10pt]
+    &EE = \frac{\rate{p|\hat{h}|^2}{\sigma^2}}{\mu p + P_c}
+    \end{aligned}
+\end{equation*}
+%------------------------------------------------------------------------------------%
+\pagebreak 
+
+
+\section{Canale MISO (Multiple Input Single Output)}
+Consideriamo un canale \textbf{Flat-Fading} per una trasmissione in cui abbiamo una sola antenna ricevente (antenna di output) e più antenne trasmittenti (antenne che immettono l'input).\\
+
+Il canale che va dall'l-esima antenna della BS verso ciascun terminale mobile è:
+\begin{equation*}
+    y_l = \sqrt{p} \ q_l \ g_l^* \ s
+\end{equation*}
+
+dove:
+\begin{itemize}
+    \item $g_l^*$ è il Coefficiente di Downlink Utente-L-esima antenna trasmittente
+    \item $q_l$ è il Coefficiente di Beamforming dell'l-esima antenna trasmittente, tale che $||\vc{q}||^2 = 1$
+    \item La potenza del segnale trasmesso sarà quindi:  $P = \sum_{l=1}^{L} p |q_l|^2 = p ||\vc{q}||^2 = p$
+\end{itemize}
+
+Quindi il terminale mobile riceve la sovrapposizione dei segnale dalle L antenne della BS:
+\begin{equation*}
+    r = \sqrt{p} \left(\sum_{l=1}^{L} g_l^* \ q_l \right) \ s + n = \sqrt{p} \ \vc{g}^H \ \vc{q} \ s + n
+\end{equation*}
+
+
+\subsection{MTC (Maximum Transmit Combining)}
+Dato il segnale ricevuto:
+\begin{equation*}
+    r = \sqrt{p} \ \vc{g}^H \ \vc{q} \ s + n = \sqrt{p}\ z + n
+\end{equation*}
+
+L'SNR al ricevitore sarà:
+\begin{equation*}
+    SNR = \frac{p\av{|z|^2}}{\av{|n|^2}}
+\end{equation*}
+
+Esaminando il numeratore:
+\begin{equation*}
+   p\av{|z|^2} = p\av{|s|^2} \ |\vc{g}^H \ \vc{q}|^2 \leq p ||\vc{g}||^2 \ ||\vc{q}||^2  = p ||\vc{g}||^2
+\end{equation*}
+dove l'uguaglianza vale quando \vc{g} e \vc{q} sono paralleli.
+
+Quindi il massimo SNR ottenibile dopo il filtro sarà:
+\begin{equation*}
+    SNR = \frac{p ||\vc{g}||^2}{\sigma^2} \implies C_{MISO} = \rate{p ||\vc{g}||^2}{\sigma^2}
+\end{equation*}
+
+e può essere ottenuto scegliendo $\vc{q} = \alpha \vc{g}$. \\
+
+Di solito si prende $\alpha = \frac{1}{||\vc{g}||}$ in modo tale da normalizzare $\vc{q}$.
+\\
+
+\subsection{Antenna Selection}
+Con il metodo di \textbf{Antenna Selection} si trasmette solo dall'antenna con il canale migliore:
+\begin{equation*}
+    \hat{g} = \max_{l\in[1,L]} |g_l|
+\end{equation*}
+
+Il suo SNR sarà:
+\begin{equation*}
+    SNR = \frac{p|\hat{g}|^2}{\sigma^2}
+\end{equation*}
+
+Quindi avremmo:
+\begin{equation*}
+    \begin{aligned}
+    &R = \rate{p|\hat{g}|^2}{\sigma^2}
+    \\[10pt]
+    &EE = \frac{\rate{p|\hat{g}|^2}{\sigma^2}}{\mu p + P_c}
+    \end{aligned}
+\end{equation*}
+%------------------------------------------------------------------------------------%
+\pagebreak 
+
+
+\section{Canale MIMO (Multiple Input Multiple Output)}
+Consideriamo un canale \textbf{Flat-Fading} per una trasmissione in cui abbiamo $N_T$ antenne al $T_x$ e $N_R$ antenne al $R_x$ e trasmettiamo $N_T$ simboli contemporaneamente $s_1, ..., s_{N_T}$.\\
+\\
+
+\subsection{Trasmissione}
+Il Segnale $x_{i}$ trasmesso dall'antenna i-esima è una sovrapposizione degli $N_T$ simboli:
+\begin{equation*}
+    \begin{aligned}
+    x_1 &= \sqrt{p} \sum_{nt=1}^{N_T} s_{nt} \ q_{nt,1} \\
+    x_2 &= \sqrt{p} \sum_{nt=1}^{N_T} s_{nt} \ q_{nt,2} \\
+    &.\\&.\\&.\\
+    x_{N_T} &= \sqrt{p} \sum_{nt=1}^{N_T} s_{nt} \ q_{nt,N_T} \\
+    \end{aligned}
+\end{equation*}
+con $q_{nt,i}$ il coefficiente di Beamforming dell'antenna i, relativo al simbolo nt.
+
+Ora definiamo:
+\begin{itemize}
+    \item $\vc{x} = [x_1, ..., x_{N_T}]$
+    \item $\vc{M} = \bigl(
+    \begin{smallmatrix}
+    q_{1,1} & q_{2,1} & \dots &  q_{N_T,1} \\
+    q_{1,2} & \dots & \\
+    \vdots\\
+    q_{1,N_T} & \dots & \dots & q_{N_T,N_T}
+    \end{smallmatrix}
+    \bigr) $
+\end{itemize}
+Per ottenere:
+\begin{equation*}
+    \vc{x} = \sqrt{p} \vc{M} \ \vc{s}
+\end{equation*}
+
+Dove vale il seguente vincolo:
+\begin{equation*}
+    tr(\vc{M}\vc{M}^H) = 1
+\end{equation*}
+
+Dato che se assumiamo $\av{\vc{s}\vc{s}^H} = \vc{I}$:
+\begin{equation*}
+    P_t = \av{||\vc{x}||^2} = \av{tr(\vc{x}\vc{x}^H)} = p \ tr(\vc{M}\vc{M}^H)
+\end{equation*}
+
+La potenza dello stream nt è:
+\begin{equation*}
+    P_{nt} = \av{|\sqrt{p}\vc{q}_{nt}^T \vc{s}|^2} = p||\vc{q}_{nt}||^2 \av{\vc{s}\vc{s}^H} = p||\vc{q}_{nt}||^2
+\end{equation*}
+Allora la \textbf{Potenza Totale} può essere calcolata così:
+\begin{equation*}
+    \sum_{nt=1}^{N_T} P_{nt} = \sum_{nt=1}^{N_T} p||\vc{q_{nt}}||^2 = p tr(\vc{M}\ \vc{M}^H) = p
+\end{equation*}
+\\
+
+\subsection{Ricezione}
+Ad ogni antenna ricevente arriva la sovrapposizione dei segnali trasmessi da tutte le antenne trasmittenti, quindi il segnale ricevuto dall'antenna nr sarà:
+\begin{equation*}
+    r_{nr} = \sum_{nt=1}^{N_T} h_{nr,nt} \ x_{nt} + n_{nr}
+\end{equation*}
+
+con $h_{nr,nt}$ canale tra l'antenna nr ricevente e l'antenna nt trasmittente.
+
+\begin{equation*}
+    \begin{aligned}
+    r_1 &=  \sum_{nt=1}^{N_T} h_{1,nt} x_{nt} + n_{1} \\
+    r_2 &=  \sum_{nt=1}^{N_T} h_{2,nt} x_{nt} + n_{2} \\
+    &.\\&.\\&.\\
+    r_{N_R} &=  \sum_{nt=1}^{N_T} h_{N_R} x_{nt} + n_{N_R} \\
+    \end{aligned}
+\end{equation*}
+\\
+
+Che possiamo sintetizzare così:
+\begin{equation*}
+    \begin{aligned}
+     r_1 &=   \vc{h}^T_{1} \vc{x} + n_{1} \\
+    r_2 &=  \vc{h}^T_{2} \vc{x} + n_{2} \\
+    &.\\&.\\&.\\
+    r_{N_R} &=  \vc{h}^T_{N_R} \vc{x} + n_{N_R} \\
+    \end{aligned}
+\end{equation*}
+\\
+
+Infine definendo la matrice:
+\begin{equation*}
+    \vc{H}=
+    \begin{pmatrix}
+    h_{1,1} & \dots & h_{1,N_T} \\
+    \vdots & \vdots & \vdots \\
+    h_{N_R,1} & \dots & h_{N_R,N_T}
+    \end{pmatrix}
+\end{equation*}
+
+Otterremo il seguente modello:
+\begin{equation*}
+    \vc{r} = \vc{H} \ \vc{x} + \vc{n} = \sqrt{p} \ \vc{H} \ \vc{M} \ \vc{s} + \vc{n}
+\end{equation*}
+\\
+
+\subsection{Capacità del canale MIMO}
+La Capacità del canale MIMO sarà:
+\begin{equation*}
+    C_{MIMO} = B\log_2 \left(\frac{|\av{\vc{r} \ \vc{r}^H}|}{|\av{\vc{n} \ \vc{n}^H}|}\right) \ [bit/s]
+\end{equation*}
+
+Assumiamo \vc{x} e \vc{n} indipendenti, allora:\\
+\begin{equation*}
+    \begin{aligned}
+    \av{\vc{r} \ \vc{r}^H} & = \av{(\vc{H} \ \vc{x} + \vc{n}) \ (\vc{H} \ \vc{x} + \vc{n})^H} = \\ \\
+    & = \vc{H} \ \underbrace{\av{\vc{x} \ \vc{x}^H}}_{p\vc{M} \ \vc{M}^H = p \ \vc{Q}} \vc{H}^H + \underbrace{\av{\vc{n} \ \vc{n}^H}}_{\sigma^2\vc{I}} = \\ \\
+    & = p\vc{H}\vc{Q}\vc{H}^H + \sigma^2\vc{I}
+    \end{aligned}
+\end{equation*}
+\\
+
+Quindi la Capacità nel canale MIMO si scriverà:
+\begin{equation*}
+    C_{MIMO} = B\log_2 \left(\frac{| p\vc{H}\vc{Q}\vc{H}^H + \sigma^2\vc{I}|}{|\sigma^2\vc{I}|}\right) = B\log_2 \left(\left| \vc{I} + \frac{p}{\sigma^2}\vc{H}\vc{Q}\vc{H}^H \right|\right)  \ [bit/s]
+\end{equation*}
+\\
+
+\subsubsection{Disuguaglianza di Hadamard}
+Sia $\vc{A} \in \mathbb{R}^{n X n}$ definita positiva ($\Re (\vc{x}^* \vc{A}\vc{x})>0 \; \forall \vc{x} \neq \vc{0} \in \mathbb{C}^n$), allora:
+\begin{equation*}
+    |\vc{A}| = \leq \prod_{i=1}^n A_{i,i}
+\end{equation*}
+
+Se $\vc{A}$ è diagonale $\implies A_{i,i} = \lambda_i$
+\\
+
+\subsubsection{Applicazione}
+La matrice $\vc{I} + \frac{p}{\sigma^2}\vc{H}\vc{Q} \vc{H}^{H}$ è definita positiva:
+\begin{empheq}[box=\tcbhighmath]{equation*}
+\begin{aligned}
+Dimostrazione \\
+\vc{x}^H \left(\vc{I} + \frac{p}{\sigma^2}\vc{H}\vc{Q} \vc{H}^{H} \right) \ \vc{x} &= ||\vc{x}||^2 + \frac{p}{\sigma^2} \vc{x}^H \vc{H}\vc{M} \ \vc{M}^H \vc{H}^H \vc{x} \\
+&= ||\vc{x}||^2 + \frac{p}{\sigma^2} ||\vc{M}^H \vc{H} \vc{x}||^2 > 0
+\end{aligned}
+\end{empheq}
+\\
+
+Quindi l'autovalore i-esimo della matrice $\left(\vc{I} + \frac{p}{\sigma^{2}} \vc{H} \vc{Q} \vc{H}^{H} \right)$ sarà $ \implies  1 + \frac{p}{\sigma^2} \ \lambda_i$, con $\lambda_i$ che è l'autovalore della matrice $\vc{H}\vc{Q} \vc{H}^{H}$. \\
+
+In aggiunta ogni autovettore  \vc{v} di  $\vc{H}\vc{Q} \vc{H}^{H}$ sarà anche autovettore di $\vc{I} + \frac{P}{\sigma^2}\vc{H}\vc{Q} \vc{H}^{H}$ dato che:
+\begin{empheq}[box=\tcbhighmath]{equation*}
+\begin{aligned}
+Dimostrazione \\
+\left(\vc{I} + \frac{p}{\sigma^2}\vc{H}\vc{Q} \vc{H}^{H} \right) \ \vc{v} &= \vc{v} + \frac{p}{\sigma^2}\vc{H}\vc{Q} \vc{H}^{H} \vc{v} =\\
+&= \vc{v} + \frac{p}{\sigma^2} \ \lambda_i \vc{v} = \\
+&= (1 + \frac{p}{\sigma^2} \ \lambda_i) \vc{v}
+\end{aligned}
+\end{empheq}
+\\
+
+Allora applicando la disuguaglianza di Hadamard si ha:
+\begin{equation*}
+    C \leq B \sum_{i=1}^{min\{N_R, N_T\}} \log_2 \left(1 + \frac{p}{\sigma^2} \lambda_i \right)
+\end{equation*}
+
+\begin{center}
+    Ma come posso rendere $\vc{I} + \frac{p}{\sigma^{2}} \vc{H} \vc{Q} \vc{H}^{H}$ anche \textbf{DIAGONALE}????
+\end{center}
+
+\begin{itemize}
+    \item Scriviamo la matrice di canale attraverso la sua SVD: $\vc{H} = \vc{U} \vc{\Lambda} \vc{V}^H$
+    \item Scriviamo la matrice di covarianza del segnale tramite la sua EVD: $\vc{Q} = \vc{U}_Q \vc{\Lambda}_Q \vc{U}_Q^H$
+\end{itemize}
+
+Così sostituendo otterremo:
+\begin{equation*}
+    \vc{H} \vc{Q} \vc{H}^{H} = \underbrace{\vc{U} \vc{\Lambda} \vc{V}^H}_{\vc{H}} \ \underbrace{\vc{U}_Q \vc{\Lambda}_Q \vc{U}_Q^H}_{Q} \ \underbrace{\vc{V} \vc{\Lambda}^H \vc{U}^H}_{\vc{H}^H}
+\end{equation*}
+
+Ma se scegliamo $\vc{U}_Q = \vc{V}$ otteniamo:
+\begin{equation*}
+    \vc{I} + \frac{p}{\sigma^{2}} \vc{U} \vc{\Lambda} \vc{\Lambda} _Q \vc{\Lambda}^H \vc{U}^H
+\end{equation*}
+Che ci fa arrivare alla massima capacità.\\
+
+\begin{center}
+    \textbf{Ma quindi come dobbiamo elaborare il segnale al trasmettitore e al ricevitore per raggiungere la massima capacità???}  
+\end{center}
+
+\begin{equation*}
+\begin{aligned}
+     \vc{r} &= \vc{H} \vc{x} + \vc{n} = \sqrt{p} \vc{H} \vc{M} \vc{s} + \vc{n} = \\
+     &= \sqrt{p} \  \underbrace{\vc{U} \vc{\Lambda} \vc{V}^H}_{\vc{H}} \ \underbrace{\vc{U}_M \vc{\Lambda}_M \vc{V}_M^H}_{\vc{M}} \ \vc{s} + \vc{n} = \\
+     &= \sqrt{p} \ \vc{U} \vc{\Lambda} \vc{V}^H \ \vc{U}_Q \vc{\Lambda}_Q^{1/2} \tilde{\vc{s}} + \vc{n}
+\end{aligned}
+\end{equation*}
+
+dove:
+\begin{itemize}
+    \item $\vc{U}_M = \vc{U}_Q$ e $\vc{\Lambda}_M = \vc{\Lambda}_Q^{1/2}$
+    \item $\tilde{\vc{s}} = \vc{V}_{M}^H \vc{s}$
+\end{itemize}
+
+Scegliendo $\vc{U}_Q = \vc{V}$ otteniamo:
+\begin{equation*}
+    \vc{r} = \sqrt{p} \ \vc{U} \vc{\Lambda} \vc{\Lambda}_Q^{1/2} \tilde{\vc{s}} + \vc{n}
+\end{equation*}
+
+Al ricevitore filtriamo il segnale ricevuto con $\vc{C}^H = \vc{U}^H$:\\
+
+\begin{equation*}
+\begin{aligned}
+     \vc{y} &= \vc{C}^H \vc{r} = \sqrt{p} \vc{C}^H \vc{U} \vc{\Lambda} \vc{\Lambda}_Q^{1/2} \tilde{\vc{s}} + \vc{C}^H \vc{n} = \\
+     &= \sqrt{p} \vc{\Lambda} \vc{\Lambda}_Q^{1/2} \tilde{\vc{s}} + \vc{U}^H \vc{n} = \sqrt{p} \vc{\Lambda} \vc{\Lambda}_Q^{1/2} \tilde{\vc{s}} + \vc{w}
+\end{aligned}
+\end{equation*}
+
+Scriviamolo componente per componente:\\
+\begin{equation*}
+    \vc{y} = \begin{pmatrix}
+    y_1 \\ y_2 \\ ... \\ y_{N_R}
+    \end{pmatrix} = \sqrt{p} \begin{pmatrix}
+    \lambda_{1,H} \sqrt{\lambda_{Q,1}} \ \tilde{s}_1 + w_1 \\
+    \lambda_{2,H} \sqrt{\lambda_{Q,2}} \ \tilde{s}_2 + w_2 \\
+    .\\.\\.\\
+    \lambda_{N_R,H} \sqrt{\lambda_{Q,N_R}} \ \tilde{s}_1 + w_{N_R}
+    \end{pmatrix}
+\end{equation*}
+
+Così facendo abbiamo ottenuto $min\{N_R, N_T\}$ Canali SISO Paralleli.\\
+
+Quindi la capacità del Canale MIMO può anche essere calcolata sommando le capacità dei singoli canali SISO.\\
+
+Il Canale SISO i-esimo ha il seguente SNR:
+\begin{equation*}
+    SNR_i = \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q}
+\end{equation*}
+
+Quindi la Capacità del Canale SISO i-esimo sarà:
+\begin{equation*}
+    C_i = B\log_2\left(1 + \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q} \right)
+\end{equation*}

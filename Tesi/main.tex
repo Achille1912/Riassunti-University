@@ -1,0 +1,88 @@
+% Set del Layout delle Pagine %
+\documentclass[titlepage, oneside, 12pt]{book}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+\setlength{\headsep}{0.3in}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\renewcommand{\thesection}{\arabic{section}}
+
+
+\usepackage{tabularx} %Per le tabelle
+\usepackage{graphicx} % Per le immagini
+\usepackage{minted} %Per il codice%
+\usepackage{mathrsfs,amsmath,amssymb} %Per cose come simboli e matrici
+
+
+% Font Family%
+\usepackage[math]{iwona}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+
+
+%Element Font Size%
+\usepackage{sectsty}
+\sectionfont{\fontsize{18}{20}\selectfont}
+\subsectionfont{\fontsize{16}{16}\selectfont}
+\subsubsectionfont{\fontsize{12}{12}\selectfont}
+
+
+%Per i link nell'indice%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+%-------------------------------------------------------%
+\begin{document}
+\begin{titlepage}
+    \centering
+    
+    
+     
+        {\large\bfseries
+    UNIVERSITÀ DEGLI STUDI DI CASSINO
+    E DEL LAZIO MERIDIONALE
+    \par
+    }
+    \vspace{6ex}
+    {\LARGE
+    \textbf{Facoltà di Ingegneria}
+    \par}
+    \vspace{1cm}
+    \includegraphics{Images/logo_unicas.png}
+    \vspace{1cm}
+
+\textbf{\large Corso di laurea in Ingegneria Informatica e delle Telecomunicazioni}
+
+\vspace{1cm}
+       
+{\Huge
+\textbf{Simulazione della Dinamica di Corpi Rigidi Rettangolari}
+\par}
+\vfill
+{\LARGE
+\begin{table}[h!]
+    \centering
+    
+    \begin{tabularx}{\textwidth}{|X r|}
+        \textbf{Relatore} & \textbf{Candidato} \\
+        Prof.Alessandro Bria & Achille Cannavale\\
+         & Matr. 0058721
+    \end{tabularx}
+\end{table}
+\large
+A.A. 2022/2023
+\par}
+
+\end{titlepage}
+\tableofcontents
+\include{Chapter1}
+\include{Chapter2}
+\end{document}

@@ -1,0 +1,30 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Vector2f}\PYG{+w}{ }\PYG{n}{normal}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{normals}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{minA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{INFINITY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{maxA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{INFINITY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Vector2f}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{verticesA}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{proj}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Math}\PYG{o}{::}\PYG{n}{Dot}\PYG{p}{(}\PYG{n}{vertex}\PYG{p}{,}\PYG{n}{normal}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{minA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{min}\PYG{p}{(}\PYG{n}{minA}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{proj}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{maxA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{max}\PYG{p}{(}\PYG{n}{maxA}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{proj}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{minB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{INFINITY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{maxB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{n}{INFINITY}\PYG{p}{;}
+\PYG{+w}{        }\PYG{k}{for}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{Vector2f}\PYG{+w}{ }\PYG{n}{vertex}\PYG{+w}{ }\PYG{o}{:}\PYG{+w}{ }\PYG{n}{verticesB}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{proj}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{Math}\PYG{o}{::}\PYG{n}{Dot}\PYG{p}{(}\PYG{n}{vertex}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{normal}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{minB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{min}\PYG{p}{(}\PYG{n}{minB}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{proj}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{maxB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{std}\PYG{o}{::}\PYG{n}{max}\PYG{p}{(}\PYG{n}{maxB}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{proj}\PYG{p}{);}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{maxA}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{minB}\PYG{+w}{ }\PYG{o}{||}\PYG{+w}{ }\PYG{n}{maxB}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{minA}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+
+\PYG{+w}{            }\PYG{n}{result}\PYG{p}{.}\PYG{n}{setAreColliding}\PYG{p}{(}\PYG{n+nb}{false}\PYG{p}{);}
+\PYG{+w}{            }\PYG{n}{result}\PYG{p}{.}\PYG{n}{setCollidingAxis}\PYG{p}{(}\PYG{n}{Vector2f}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{));}
+\PYG{+w}{            }\PYG{n}{result}\PYG{p}{.}\PYG{n}{setDepth}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{);}
+\PYG{+w}{            }\PYG{k}{return}\PYG{+w}{ }\PYG{n}{result}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{k+kt}{float}\PYG{+w}{ }\PYG{n}{axisDepth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{std}\PYG{o}{::}\PYG{n}{min}\PYG{p}{(}\PYG{n}{maxB}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{minA}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{maxA}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{minB}\PYG{p}{));}
+\PYG{+w}{        }\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{axisDepth}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{depth}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n}{depth}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{axisDepth}\PYG{p}{;}
+\PYG{+w}{            }\PYG{n}{result\PYGZus{}normal}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{normal}\PYG{p}{;}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

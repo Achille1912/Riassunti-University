@@ -1,0 +1,95 @@
+\documentclass[titlepage, twoside]{book}
+\usepackage{fancyhdr}
+\usepackage[italian]{babel}
+\pagestyle{fancy}
+\fancyheadoffset[RO,LE]{0.4in}
+\fancyhead[L]{\leftmark }
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+\setlength{\headsep}{0.3in}
+\fancyfoot[R]{Achille Cannavale}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+%Per le immagini%
+\usepackage{graphicx} 
+\usepackage{xcolor}
+
+%Per la Matematica%
+\usepackage{mathrsfs,amsmath,amssymb}
+\usepackage[makeroom]{cancel}
+
+\usepackage{steinmetz}
+
+%Font Family%
+\usepackage{mathptmx}
+
+%Element Font Size%
+\usepackage{sectsty}
+\sectionfont{\fontsize{18}{20}\selectfont}
+\subsectionfont{\fontsize{16}{16}\selectfont}
+\subsubsectionfont{\fontsize{12}{12}\selectfont}
+
+
+
+%Colori%
+\usepackage{empheq}
+\usepackage[most]{tcolorbox}
+
+%Per i link nell'indice%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+\newcommand{\vc}[1]{\pmb{\underline{#1}}}
+\newcommand{\av}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\rate}[2]{B\log_2\left(1 + \frac{#1}{#2}\right)}
+
+
+%-------------------------------------------------------%
+
+\begin{document}
+
+
+\begin{titlepage}
+\centering
+
+ \vspace*{\fill}
+    {\Huge\bfseries
+Reti Wireless\par
+}
+\vspace{6ex}
+{\Large
+Riassunto da
+\par}
+
+        \vspace{1.5cm}
+            
+        \textbf{\large Achille Cannavale}
+            
+        \vfill
+
+        \vspace{0.8cm}
+
+   
+\end{titlepage}
+\Large
+
+\tableofcontents
+\include{Chapter1}
+\include{Chapter2}
+\include{Chapter3}
+\include{Chapter4}
+\include{Chapter5}
+\include{Chapter6}
+\include{Chapter7}
+\include{Chapter8}
+\end{document}

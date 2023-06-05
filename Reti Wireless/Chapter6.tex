@@ -1,0 +1,260 @@
+\chapter{Allocazione delle Risorse}
+In questo capitolo ci occuperemo di trasportare gran parte delle nozioni di ottimizzazione  apprese nel capitolo precedente, alle Reti Wireless.
+\\
+Per prima cosa dobbiamo chiederci se le ipotesi per usare la teoria dell'ottimizzazione concava/pseudo-concava sono verificate:
+\\ \\
+Per il Sum-Rate e per la GEE abbiamo bisogno che i rate/EE di ciascun utente siano concavi :
+    \begin{equation*}
+        SR = \sum_{k=1}^K \log(1 + sinr_k) 
+    \end{equation*}
+    \begin{equation*}
+         GEE = \frac{\sum_{k=1}^K \log(1 + sinr_k)}{P_c + \sum_{k=1}^K \mu_k p_k}
+    \end{equation*}
+
+
+Tuttavia ricordando quali siano le formule del rate e dell'efficienza energetica in una rete SIMO in uplink:
+\begin{equation*}
+    \begin{aligned}
+    R_m &= \log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2 + \color{red} \sum_{k\neq m} p_l |\vc{c}_m^H \vc{h}_k |^2} \right) \\ \\
+        EE_m &= \frac{\log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2 + \color{red} \sum_{k\neq m} p_l |\vc{c}_m^H \vc{h}_k |^2} \right)}{\mu_m p_m + P_{c,m}}
+    \end{aligned}
+\end{equation*}
+Mentre nel downlink abbiamo:
+\begin{equation*}
+    \begin{aligned}
+    R_m &= \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 + \color{red} \sum_{k\neq m} p_l |\vc{g}_m^H \vc{q}_k |^2} \right) \\ \\
+        EE_m &= \frac{\log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 + \color{red} \sum_{k\neq m} p_l |\vc{g}_m^H \vc{q}_k |^2} \right)}{\mu_m p_m + P_{c,m}}
+    \end{aligned}
+\end{equation*}
+Dove la parte rossa rappresenta l'Interferenza Multi-Utente, che rende il rate una funzione non-concava e di conseguenza neanche l'efficienza energetica...\\ \\
+\begin{center}
+    Allora l'unica cosa da fare è eliminare l'Interferenza Multi-Utente.
+\end{center}
+Possiamo fare ciò attraverso diverse strade:
+\begin{itemize}
+    \item Usando un ricevitore/trasmettitore di tipo Zero-Forcing.
+    \item Separando gli utenti in frequenza/tempo (FDMA/TDMA).
+    \item Possiamo Considerare un sistema massive MIMO.
+\end{itemize}
+\section{Uplink Power Control}
+Supponendo di aver tolto l'Interferenza Multi-Utente, i nostri problemi si ridurranno nei seguenti:
+\subsection{Uplink Sum Rate Maximization}
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2} \right) \\
+     &con  \ 0 \leq p_m \leq P_{max,m}, \ \forall m
+     \end{aligned}
+\end{equation*}
+Dato che ciascun membro della sommatoria e ciascun vincolo dipendono solo da $p_m$, possiamo far entrare max dentro la sommatoria:
+\begin{equation*}
+    \begin{aligned}
+     &\max_{p_m}\log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2} \right) \\
+     & con  \ 0 \leq p_m \leq P_{max,m}, \ \forall m
+    \end{aligned}
+\end{equation*}
+Allora il risultato è:
+\begin{equation*}
+    p_m = P_{max,m}
+\end{equation*}
+
+\subsection{GEE Maximization}
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \frac{\sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2} \right)}{\mu_m p_m + P_{c,m}} \\
+    &con \ 0 \leq p_m \leq P_{max,m}, \ \forall m
+    \end{aligned}
+\end{equation*}
+Qui siamo costretti ad usare l'algoritmo di Dinkelbach, risolvendo in ciascuna iterazione il seguente problema ausiliario:
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2} \right) - \lambda(\mu_m p_m + P_{c,m})
+    \\
+    &con \ 0 \leq p_m \leq P_{max,m}, \ \forall m
+    \end{aligned}
+\end{equation*}
+\begin{center}
+    Adesso possiamo far entrare il max dentro la sommatoria!
+\end{center}
+\begin{equation*}
+    \begin{aligned}
+     &\max_{p_m}\log\left(1 + \frac{p_m |\vc{c}_m^H \vc{h}_m |^2}{\sigma^2} \right) - \lambda(\mu_m p_m + P_{c,m}) \\
+     & con  \ 0 \leq p_m \leq P_{max,m}, \ \forall m
+    \end{aligned}
+\end{equation*}
+Ora definendo:
+\begin{equation*}
+    a_m = |\vc{c}_m^H \vc{h}_m |^2 / \sigma^2
+\end{equation*}
+Studiamo il segno della derivata prima:
+
+\begin{equation*}
+    \begin{aligned}
+    &\frac{a_m}{ln(2) (a_m p_m +1)} - \lambda \mu_m \geq 0 \implies \\
+    &\implies p_m \leq \left(\frac{1}{ln(2)\lambda \mu_m } - \frac{1}{a_m}\right) = \Tilde{p_m}
+    \end{aligned}
+\end{equation*}
+
+Quindi la funzione obbiettivo è:
+\begin{itemize}
+    \item Crescente per $p_m \leq \Tilde{p_m}$
+    \item Decrescente per $p_m \geq \Tilde{p_m}$
+    \item Con un punto di massimo in $p_m = \Tilde{p_m}$
+\end{itemize}  
+Quindi considerando anche i vincoli avremo la seguente soluzione:
+\begin{equation*}
+    p_m^* = max\{0, min\{P_{max,m},\Tilde{p_m} \}\}
+\end{equation*}
+
+
+\subsection{Downlink Sum Rate Maximization}
+Vale un discorso analogo per il Downlink:
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2} \right) \\
+     &con  \ 0 \leq p_m \leq P_{max,m}, \ \forall m \\
+     &\sum_{m=1}^K p_m \leq P_{max}
+     \end{aligned}
+\end{equation*}
+Dato che la funzione obbiettivo, all'aumentare di $p_m$ cresce, vuol dire che la soluzione del problema si avrà per $p_m = p_{max}$, quindi:
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2} \right) \\
+     &con  \ 0 \leq p_m \leq P_{max,m}, \ \forall m \\
+     &\sum_{m=1}^K p_m = P_{max}
+     \end{aligned}
+\end{equation*}
+Che non è altro che un problema di Water-Filling con:
+\begin{equation*}
+     c_m = |\vc{g}_m^H \vc{q}_m |^2 / \sigma^2
+\end{equation*}
+quindi la soluzione è:
+\begin{equation*}
+    p_m = max\left(\frac{1}{\nu ln(2)} - \frac{1}{c_m}\right)
+\end{equation*}
+
+\subsection{Downlink GEE Maximization}
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \frac{\sum_{m=1}^K \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 } \right)}{\mu_m p_m + P_{c,m}} \\
+    &con \ 0 \leq p_m \leq P_{max,m}, \ \forall m \\
+     &\sum_{m=1}^K p_m \leq P_{max}
+    \end{aligned}
+\end{equation*}
+Dobbiamo applicare, come nell'uplink, l'algoritmo di Dinkelbach, dove in ciascuna iterazione abbiamo il seguente problema ausiliario:
+\begin{equation*}
+    \begin{aligned}
+    &\max_{\vc{p}} \sum_{m=1}^K  \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 } \right) - \lambda \mu p_m \\
+    &con \ p_m \geq 0 \ \forall m \\
+    &\sum_{m=1}^K p_m \leq P_{max}
+    \end{aligned}
+\end{equation*}
+Purtroppo qui non possiamo mettere l'uguaglianza nell'ultimo vincolo dato che la nostra funzione obiettivo non è crescente in $p_m$, quindi la somma delle Potenze Ottime sarà:
+\begin{equation*}
+    \sum_{m=1}^K p_m^* = P \leq P_{max}
+\end{equation*}
+Quindi dobbiamo risolvere il problema ausiliario per ogni $P \in [0, P_{max}]$:
+\begin{equation}
+    \begin{aligned}
+     &\max_{\vc{p}} \sum_{m=1}^K  \log\left(1 + \frac{p_m |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 } \right) - \lambda \mu p_m \\
+    &con \ p_m \geq 0 \ \forall m \\
+    &\sum_{m=1}^K p_m = P
+    \end{aligned}
+\end{equation}
+\begin{center}
+    E poi scegliere la soluzione corrispondente alla P con la quale otteniamo il valore più grande della funzione obiettivo.
+\end{center}
+\begin{algorithm}
+\begin{algorithmic}
+\Large
+\State {Inizializza} $\delta > 0; P_{tot} = [0 : \delta : P_{max}];$
+\State \textbf{for} n = 1 : length(P) \textbf{do}
+\State $P = P_{tot}(n);$
+\State $Solve \ (6.1) \ to \ obtain  \ \vc{p}_n^*;$
+\State $F(n) = \sum_{m = 1}^K \log\left(1 + \frac{p_{m,n}^* |\vc{g}_m^H \vc{q}_m |^2}{\sigma^2 } \right) - \lambda \mu p_{m,n}^*$
+\State \textbf{end for}
+\State $l = argmax F(n);$
+\State $\vc{p}^* = \vc{p}_l^*;$
+\end{algorithmic}
+\end{algorithm}
+\begin{center}
+    Quindi dobbiamo risolvere 6.1 in ogni iterazione!
+\end{center}
+Definendo:
+\begin{equation*}
+    c_m = |\vc{g}_m^H \vc{q}_m |^2 / \sigma^2
+\end{equation*}
+Calcoliamo il Lagrangiano della funzione obiettivo:
+\begin{equation*}
+    \begin{aligned}
+    L(\vc{x}, \vc{\psi}, \vc{nu}) &= - \sum_{m=1}^K log(1 + c_m p_m) + \lambda \mu p_m - \\
+    & - \sum_{m=1}^K \psi_m p_m + \nu \left(\sum_{m=1}^K p_m - P\right)
+    \end{aligned}
+\end{equation*}
+Ora poniamo la derivata di L rispetto alla generica $p_k$ uguale a 0:
+\begin{equation*}
+    \frac{\partial L}{\partial p_k} = \frac{-c_k / ln(2)}{1 + c_k p_k} + \lambda \mu - \psi_k + \nu = 0
+\end{equation*}
+Quindi definendo $\nu_{eq} = \nu + \lambda \mu$ otteniamo:
+\begin{equation*}
+    \psi_k = \nu_{eq} - \frac{c_k /ln(2)}{1 + c_k p_k}
+\end{equation*}
+\begin{center}
+    Quindi la soluzione è:
+\end{center}
+\begin{equation*}
+    p_k = max\left(0, \frac{1}{\nu_{eq} ln(2)} - \frac{1}{c_k}\right)
+\end{equation*}
+
+
+\section{MIMO Maximization}
+\subsection{MIMO Rate Maximization}
+Consideriamo ora un sistema MIMO a singolo utente, in cui dopo aver ottimizzato:
+\begin{itemize}
+    \item La Matrice di Beamforming $\vc{U}_Q$
+    \item La Matrice di Ricezione $\vc{C}$
+\end{itemize}
+la Capacità si scrive così:
+\begin{equation*}
+    \sum_{i=1}^{min\{N_R, N_T\}} C_i = B \sum_{i=1}^{min\{N_R, N_T\}} log\left(1 + \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q}\right)
+\end{equation*}
+Allora in questo caso il problema da risolvere è:
+\begin{equation*}
+    \begin{aligned}
+    & max_{\vc{\lambda_Q}}  \sum_{i=1}^{min\{N_R, N_T\}} log\left(1 + \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q}\right) \\
+    & con \ \lambda_{i,Q} \geq 0, \ \forall i \\
+    & \sum_{i=1}^{min\{N_R, N_T\}} \lambda_{i,Q} \leq 1
+    \end{aligned}
+\end{equation*}
+Ma possiamo riformulare il problema così:
+\begin{equation*}
+    \begin{aligned}
+    & max_{p,\vc{\lambda_Q}}  \sum_{i=1}^{min\{N_R, N_T\}} log\left(1 + \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q}\right) \\
+    & con \ \lambda_{i,Q} \geq 0, \ \forall i \\
+    & \sum_{i=1}^{min\{N_R, N_T\}} \lambda_{i,Q} = 1 \\
+    & p \in [0, P_{max}]
+    \end{aligned}
+\end{equation*}
+Dunque, abbiamo un problema di tipo Water-Filling, con:
+\begin{equation*}
+    c_i = \frac{p}{\sigma^2} \lambda^2_{i, H}
+\end{equation*}
+Quindi la soluzione sarà:
+\begin{equation*}
+  \lambda_{i,Q} =  max \left(0, \frac{1}{\nu} - \frac{1}{c_i}\right)
+\end{equation*}
+
+\subsection{MIMO EE Maximization}
+In questo caso il problema è:
+\begin{equation*}
+    \begin{aligned}
+    & max_{p,\vc{\lambda_Q}} \frac{\sum_{i=1}^{min\{N_R, N_T\}} log\left(1 + \frac{p}{\sigma^2} \lambda_{i,H}^2 \lambda_{i,Q}\right)}{\mu p + P_c}  \\
+    & con \ 0 \leq p \leq P_{max}
+    \end{aligned}
+\end{equation*}
+
+Gli autovalori $\lambda_{i,Q}$, come si può vedere, influenzano solo il Rate, quindi possono essere allocati come nella MIMO Rate Maximization.\\ \\
+Dato che rispetto a p, la GEE è strettamente pseudo-concava, definendo con $\hat{p}$ il punto stazionario, la soluzione è:
+\begin{equation*}
+    \hat{p} = max \{0, min\{P_{max}, \hat{p}\}\}
+\end{equation*}
+

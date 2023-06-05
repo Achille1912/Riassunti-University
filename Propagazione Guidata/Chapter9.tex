@@ -1,0 +1,65 @@
+\chapter{Parametri Z di un Doppio Bipolo}
+In prima analisi consideriamo le \textbf{correnti indipendenti} e usiamo su ogni porta la \textbf{convenzione dell'utilizzatore}:
+\begin{equation*}
+    \begin{dcases}
+    V_1 = Z_{11} I_1 + Z_{12} I_2\\
+    V_2 = Z_{21} I_1 + Z_{22} I_2
+    \end{dcases}
+    \implies \underline{V} = \underline{\underline{Z}} \ \underline{I}
+\end{equation*}
+\begin{itemize}
+    \item $Z_{11}$ e $Z_{22}$ sono dette autoimpedenze
+    \item $Z_{12}$ e $Z_{21}$ sono dette mutueimpedeze
+\end{itemize}
+\section{Reciprocità}
+Un'importante proprietà è la \textbf{Reciprocità}.\\ \\
+Un doppio bipolo si dice \textbf{reciproco} se vale il \textbf{teorema di reciprocità}, che per un \textbf{sistema elettromagnetico} \textbf{vale sempre} purchè il sistema \textbf{non sia costituito da mezzi} che risentono di un \textbf{campo magnetico di polarizzazione}.\\ \\
+Se un \textbf{doppio bipolo}  è \textbf{reciproco} allora $\underline{\underline{Z}}$ è \textbf{simmetrica}:
+\begin{squared}
+    Z_{12}= Z_{21}
+\end{squared}
+Applichiamo il \textbf{teorema di reciprocità}:
+\begin{equation*}
+    I_1^a V_1^b = I_2^b V_2^a
+\end{equation*}
+E sostituiamo:
+\begin{equation*}
+    \begin{dcases}
+    V_1^b = \cancel{Z_{11} I_1^b} + Z_{12} I_2^b\\
+    V_2^a = Z_{21} I_1^a + \cancel{Z_{22} I_2^a}
+    \end{dcases}
+    \longrightarrow
+    \cancel{I_1^a} Z_{12} \cancel{I_2^b} = \cancel{I_2^b} Z_{21} \cancel{I_1^a}
+    \implies Z_{12} =  Z_{21}
+\end{equation*}
+\section{Simmetria}
+Un'altra proprietà dei \textbf{doppi bipoli reciproci} è la \textbf{simmetria}, ovvero che se si scambia la porta 1 con la porta 2 il funzionamento del bipolo non cambia:
+\begin{squared}
+    Z_{11} =  Z_{22}
+\end{squared}
+
+\section{Dissipamento Potenza}
+L'ultima proprietà dei \textbf{bipoli reciproci} è \textbf{l'assenza di perdite} che si avvera se al suo interno \textbf{non si dissipa potenza}:
+\begin{equation*}
+Re\left\{\frac{1}{2} V_1 I_1^* + \frac{1}{2} V_2 I_2^*\right\} = 0 \quad \forall I_1, I_2
+\end{equation*}
+\begin{equation*}
+    \begin{aligned}
+    &Re\left\{\frac{1}{2} (Z_{11} I_1 + Z_{12} I_2) I_1^* + \frac{1}{2} (Z_{21} I_1 + Z_{22} I_2) I_2^*\right\} =\\
+    &= Re\left\{\frac{1}{2} (Z_{11} |I_1|^2 + Z_{12}I_1 I_2 +  Z_{21} I_1 I_2^* + Z_{22} |I_2|^2 )\right\} = \\
+    &= \frac{1}{2} \left(Re\left\{ (Z_{11}\right\} |I_1|^2 + 2 Re\left\{ Z_{12}\right\} * Re\left\{ I_2 I_1^*\right\}  +  Re\left\{ Z_{22}\right\} |I_2|^2 )\right) = 0 \quad \\ &\forall I_1, I_2
+    \end{aligned}
+\end{equation*}
+Quindi possiamo imporre $I_2 = 0$:
+\begin{equation*}
+    \implies Re\left\{ Z_{11}\right\} = 0
+\end{equation*}
+Mentre se imponiamo  $I_1 = 0$:
+\begin{equation*}
+    \implies Re\left\{ Z_{22}\right\} = 0
+\end{equation*}
+Ma se devono valere entrambe, sostituendo ottengo:
+\begin{squared}
+     Re\left\{ Z_{12}\right\} = 0 = Re\left\{ Z_{21}\right\}
+\end{squared}
+Quindi la \textbf{matrice delle impedenze} di un \textbf{doppio bipolo reciproco}, \textbf{simmetrico} e \textbf{senza perdite} è \textbf{puramente immaginaria}.

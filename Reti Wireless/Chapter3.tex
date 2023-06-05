@@ -1,0 +1,395 @@
+\chapter{Multi Link: Canale SIMO Multi-Utente}
+Fino ad ora abbiamo trascurato le interferenze dei segnali trasmessi dagli altri terminali mobili, quindi in questo capitolo ne terremo conto, dato che l'Interferenza Multi-Utente è una caratteristica peculiare delle Reti Wireless.\\
+
+Si dice infatti che i canali wireless sono interference-limited.
+
+\section{Uplink}
+Consideriamo K utenti in una cella telefonica che comunicano, allo stesso tempo, con una BS avente L antenne.\\
+
+La BS riceverà la sovrapposizione dei segnali trasmessi dai K utenti:
+\begin{equation*}
+    \vc{r} = \sum_{k=1}^{K} \sqrt{p_k} \ \vc{h}_k s_k + \vc{n}
+\end{equation*}
+
+Supponiamo di voler ricavarci il simbolo trasmesso dall'utente m, possiamo riscrivere così:
+\begin{equation*}
+    \vc{r} = \underbrace{\sqrt{p_m} \ \vc{h}_m s_m}_{\text{Segnale Utile}}  + \underbrace{\sum_{k \neq m} \sqrt{p_k} \ \vc{h}_k s_k}_{\text{Interferenza Multi-Utente}} + \vc{n}
+\end{equation*}
+
+Ed ora elaboriamo il segnale ricevuto con un filtro lineare $\vc{c_m}$:
+\begin{equation*}
+    y_m = \vc{c}^H_m \vc{r} = \underbrace{\sqrt{p_m} \ \vc{c}^H_m \vc{h}_m s_m}_{\text{Segnale Utile}} + \underbrace{\sum_{k \neq m} \sqrt{p_k} \ \vc{c}^H_m \vc{h}_k s_k}_{\text{Interferenza Multi-Utente}} + \ \vc{c}^H_m \vc{n}
+\end{equation*}
+
+Calcoliamo la Potenza del Segnale Utile:
+\begin{equation*}
+    p_m |\vc{c}^H_m \vc{h}_m|^2 \av{|s_m|^2} = p_m |\vc{c}^H_m \vc{h}_m|^2
+\end{equation*}
+
+Ed ora la Potenza dell'Interferenza e del Rumore Termico:
+\begin{equation*}
+\begin{aligned}
+    \av{\left|\sum_{k \neq m} \sqrt{p_k} \ \vc{c}^H_m \vc{h}_k s_k + \ \vc{c}^H_m \vc{n} \right|^2} &= \av{\left|\sum_{k \neq m} \sqrt{p_k} \ \vc{c}^H_m \vc{h}_k s_k \right|^2} + \av{\left| \ \vc{c}^H_m \vc{n} \right|^2} =  \\
+    &= \sum_{k \neq m} \av{\left|\sqrt{p_k} \ \vc{c}^H_m \vc{h}_k s_k \right|^2} + \sigma^2 ||\vc{c}_m||^2 = \\
+    &= \sum_{k \neq m} p_k \left|\vc{c}^H_m \vc{h}_k  \right|^2 \av{|s_k|^2} + \sigma^2 ||\vc{c}_m||^2 = \\
+    &= \sum_{k \neq m} p_k \left|\vc{c}^H_m \vc{h}_k  \right|^2 + \sigma^2 ||\vc{c}_m||^2
+\end{aligned}
+\end{equation*}
+
+Quindi il SINR dell'utente m sarà:
+\begin{equation*}
+    SINR_m = \frac{p_m |\vc{c}^H_m \vc{h}_m|^2}{\sum_{k \neq m} p_k \left|\vc{c}^H_m \vc{h}_k  \right|^2 + \sigma^2}
+\end{equation*}
+
+Tuttavia con la Ricezione Lineare, da sola, non consente di raggiungere la capacità a causa dell'Interferenza Multi Utente, quindi per ottenerla bisognerebbe usare tecniche di ricezione non-lineari, ma di conseguenza aumenta la complessità.
+
+\subsection{Sum-Rate}
+Per misurare le prestazioni globali del sistema in termini di rate si usa:
+\begin{equation*}
+    R_{sum} = B \sum_{m=1}^K \beta_m \log_2(1 + SINR_m)
+\end{equation*}
+dove $\beta_m$ è la priorità dell'utente m.
+
+\subsection{Global Energy Efficency e sum-EE}
+Per misurare le prestazioni globali del sistema in termini di EE si usa la Global Energy Efficency:
+\begin{equation*}
+    GEE = \frac{B \sum_{m=1}^K \beta_m \log_2(1 + SINR_m)}{P_c + \sum_{m=1}^K \mu_k \ p_m} 
+\end{equation*}
+oppure la Sum-EE:
+\begin{equation*}
+    EE_{sum} = B \sum_{m=1}^K \frac{ \beta_m \log_2(1 + SINR_m)}{\mu_k \ p_m + P_{c,m}} 
+\end{equation*}
+
+\subsection{Filtro Adattato (MRC)}
+Il Filtro Addattato non è il miglior ricevitore lineare, ma è di sicuro il più semplice da implementare.\\
+Sia:
+\begin{equation*}
+    \vc{c}_m = \vc{h}_m / ||\vc{h}_m||, \forall m = 1,...,K
+\end{equation*}
+
+Si cerca di massimizzare la potenza del Segnale Utile, mitigando l'Interferenza Multi-Utente con l'uso di antenne multiple:
+\begin{equation*}
+\begin{aligned}
+      &\textbf{Potenza Interferente} \ \sum_{k \neq m} p_k \left|\vc{h}^H_m \vc{h}_k  \right|^2 = \sum_{k \neq m} p_k \left|\sum_{l=1}^L \vc{h}^*_{m,l} \vc{h}_{k,l}  \right|^2 \\
+    &\textbf{Potenza Utile} \ p_m \left|\vc{h}^H_m \vc{h}_m  \right|^2 = p_m \left|\sum_{l=1}^L |\vc{h}^*_{m,l}|^2 \right|^2
+\end{aligned}
+\end{equation*}
+
+\subsubsection{SINR con Filtro Adattato}
+
+\begin{equation*}
+    \begin{aligned}
+          SINR_m &= \frac{p_m ||\vc{h}_m||^2}{\sum_{k \neq m} p_k \frac{|\vc{h}^H_m \vc{h}_k |^2}{||\vc{h}_m||^2}+ \sigma^2}
+    \end{aligned}
+\end{equation*}
+
+
+\subsection{Zero-Forcing}
+Il metodo Zero-Forcing consiste nell'azzerare l'Interferenza Multi-Utente, tuttavia non avremo controllo sulla potenza del Segnale Utile.
+\subsubsection{Caso Due Utenti}
+Per semplicità supponiamo di avere un sistema con solo due utenti:\\
+\begin{equation*}
+    y_1 = \underbrace{\sqrt{p_1}\vc{c}_1^H \vc{h}_1 s_1}_{{\text{Segnale Utile}}} + \underbrace{\sqrt{p_2}\vc{c}_1^H \vc{h}_2 s_2}_{{\text{Interferenza Multi-Utente}}} + \underbrace{\vc{c}_1^H \vc{n}}_{Rumore Termico}
+\end{equation*}
+
+Per azzerare l'Interferenza Multi-Utente dovremo scegliere $\vc{c}_1$ ortogonale ad $\vc{h}_2$.\\
+In particolare fissiamo $\vc{c}_1 = \vc{h}_2^{\bot} / \ ||\vc{h}_2^{\bot}||$, ottenendo:
+\begin{equation*}
+    y_1 = \sqrt{p_1} \left(\frac{\vc{h}_2^{\bot}}{||\vc{h}_2^{\bot}||}  \right)^H \vc{h}_1 s_1 + \left(\frac{\vc{h}_2^{\bot}}{||\vc{h}_2^{\bot}||}  \right)^H \vc{n}
+\end{equation*}
+
+Quindi che abbiamo fatto???\\
+
+Abbiamo proiettato il Segnale Ricevuto $\vc{r}$ lungo una direzione ortogonale al vettore di canale interferente ($\vc{h_2}$).\\ \\
+
+Così facendo l'Interferenza viene azzerata, ma non abbiamo il controllo sulla potenza del Segnale Utile (noise enhacement).\\
+
+Dopo l'applicazione dello Zero-Forcing avremo il seguente SNR:
+\begin{equation*}
+    SNR_{ZF} = p_1 \frac{|(\vc{h}_2^{\bot})^H \vc{h}_1 |^2}{||\vc{h}_2^{\bot}||^2 \sigma^2} < p_1 \frac{||\vc{h}_1||^2}{\sigma^2}
+\end{equation*}
+\\
+
+Invece, nel caso in cui avessimo avuto un Canale Noise-Limited, i termini $\vc{h}$ sono meno limitanti rispetto al rumore termico, quindi:
+\begin{equation*}
+    SNR_{NL} = p_1 \frac{||\vc{h}_1||^4}{||\vc{h}_1||^2 \sigma^2} = p_1 \frac{||\vc{h}_1||^2}{\sigma^2}
+\end{equation*}
+\begin{center}
+    Quindi $SNR_{ZF} < SNR_{NL}$.
+\end{center}
+
+\subsubsection{Caso Generale}
+In generale il segnale filtrato m-esimo sarà:
+\begin{equation*}
+    y_m = \vc{c}^H \vc{r} = \sqrt{p_m}\vc{c}_m^H \vc{h}_m s_m + \sum_{k \neq m} \sqrt{p_k}\vc{c}_m^H \vc{h}_k s_k + \vc{c}_m^H \vc{n}
+\end{equation*}
+
+Quindi dato che vogliamo porre a zero l'Interferenza Multi-Utente e far rimanere il Segnale Utile:
+\begin{equation*}
+    \begin{matrix}
+    \vc{c}_m^H \vc{h}_1 = 0 \\ \\
+    \vc{c}_m^H \vc{h}_2 = 0 \\ 
+    \vdots\\ 
+    \vc{c}_m^H \vc{h}_m = 1 \\ \\
+    \vc{c}_m^H \vc{h}_{m+1} = 0 \\ 
+    \vdots \\ 
+    \vc{c}_m^H \vc{h}_K = 0
+    \end{matrix}
+\end{equation*}
+
+I vettori di canale ($\vc{h}$) sono Linearmente Indipendenti $\implies$ il sistema di sopra ammette almeno una soluzione se $L \geq K$.\\
+
+Definiamo $\vc{P}^{1/2} = diag(\sqrt{p_1},...,\sqrt{p_k}), \ \vc{s} = [s_1,...,s_K]^T$, e scriviamo il vettore ricevuto così:
+\begin{equation*}
+    \vc{r} = \sum_{k=1}^K \sqrt{p_k} \vc{h}_k s_k + \vc{n} = \vc{H} \vc{P}^{1/2} \vc{s} + \vc{n}
+\end{equation*}
+Definendo poi $\vc{C} = [\vc{c}_1,...,\vc{c}_K]$ e $\vc{y} = [\vc{y}_1,...,\vc{y}_K]^T$ si avrà:
+\begin{equation*}
+\begin{aligned}
+    \vc{y} &= \vc{C}^H \vc{r} = \frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H  \vc{H} \vc{P}^{1/2} \vc{s} + \frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H  \vc{n} \\
+    &= \vc{P}^{1/2} \vc{s} + \vc{w} = \begin{pmatrix}
+    \sqrt{p_1} s_1 \\
+     \vdots \\
+    \sqrt{p_K} s_K
+    \end{pmatrix}
+    + \vc{w}
+\end{aligned}
+\end{equation*}
+
+Quindi come abbiamo detto, la soluzione può essere calcolata SOLO quando $L \geq K$ perchè se così non fosse, la matrice $\vc{H}^H \ \vc{H}$ non sarebbe invertibile!!! \\
+
+Infatti, $\vc{H}^H \ \vc{H}$ ha dimensioni K X K, mentre $\vc{H}$ ha dimensioni L X K.\\
+Quindi affinchè $\vc{H}^H \ \vc{H}$ sia invertibile deve verificarsi che $L \geq K$, infatti:
+\begin{equation*}
+    rg(\vc{H}^H \ \vc{H}) \leq rg(\vc{H}) = min\{L,K\}
+\end{equation*}
+Mentre il $\vc{w}$ avrà:
+\begin{equation*}
+    \begin{aligned}
+    \av{\vc{w}} &= \frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H  \av{\vc{n}} = 0 \\
+    \av{\vc{w}\vc{w}^H} &= \frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H \av{\vc{n}\vc{n}^H} \left(\frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H\right)^H = \\
+    &= \sigma^2 \frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H \vc{H} \ \frac{1}{\vc{H}^H \vc{H}} = \\
+    &= \sigma^2 \frac{1}{\vc{H}^H \vc{H}}
+    \end{aligned}
+\end{equation*}
+
+\subsubsection{SNR ZF}
+Il Rapporto Segnale-Rumore dell'utente m è:
+\begin{equation*}
+    SNR_m^{ZF} = \frac{p_m \av{|s_m|^2}}{\sigma^2 ||\vc{h}_m^+||^2} = \frac{p_m}{\sigma^2 ||\vc{h}_m^+||^2}
+\end{equation*}
+dove $\vc{h}_m^+$ non è altro che la riga m-esima della matrice $\frac{1}{\vc{H}^H \vc{H}} \ \vc{H}^H$
+
+
+
+\subsection{Ricevitore LMMSE}
+Il miglior filtro lineare è il ricevitore a Minimo Errore Quadratico Medio (LMMSE).
+Consiste nel minimizzare per l'appunto l'errore quadratico medio tra il Simbolo da Stimare e il risultato a valle del filtro:
+\begin{equation*}
+    MSE_m = \av{|y_m - s_m|^2} = \av{|y_m|^2} + \av{|s_m|^2} - 2\Re\{\av{y_m s_m^*}\}
+\end{equation*}
+Calcoliamo i singoli termini separatamente:
+\begin{equation*}
+    \begin{aligned}
+    \bullet & \av{|y_m|^2} = \av{y_m y_m^*} = \\
+    &= \mathbb{E}[\left(\sqrt{p_m}\vc{c}_m^H \vc{h}_m s_m + \sum_{k \neq m} \sqrt{p_k}\vc{c}_m^H \vc{h}_k s_k + \vc{c}_m^H \vc{n}\right) \cdot \\
+    & \cdot \left(\sqrt{p_m} \vc{h}_m^H \vc{c}_m s_m^* + \sum_{i \neq m} \sqrt{p_i}  \vc{h}_i^H  \vc{c}_m s_i^* + \vc{n}^H \vc{c}_m   \right)] = \\
+    &= p_m \vc{c}_m^H \vc{h}_m \vc{h}_m^H \vc{c}_m \av{|s_m|^2} + \sum_{k \neq m} p_k \vc{c}_m^H \vc{h}_k \vc{h}_k^H  \vc{c}_m \av{|s_k|^2} + \sigma^2 ||\vc{c}_m||^2 = \\
+    &= p_m \vc{c}_m^H \vc{h}_m \vc{h}_m^H \vc{c}_m + \sum_{k \neq m} p_k \vc{c}_m^H \vc{h}_k \vc{h}_k^H  \vc{c}_m + \sigma^2 ||\vc{c}_m||^2 \\ \\
+    \bullet & \Re{\left(\av{y_m s_m^*} \right)} = \Re{\left(\av{ \left(\sqrt{p_m}\vc{c}_m^H \vc{h}_m s_m + \sum_{k \neq m} \sqrt{p_k}\vc{c}_m^H \vc{h}_k s_k + \vc{c}_m^H \vc{n}\right) \ s_m^*} \right)} = \\
+    &= \sqrt{p_m} \av{|s_m|^2} \Re{(\vc{c}_m^H \vc{h}_m)} = \sqrt{p_m} \Re{(\vc{c}_m^H \vc{h}_m)}
+    \end{aligned}
+\end{equation*}
+
+Ora calcoliamo il gradiente rispetto a $\vc{c}_m$ dei singoli termini:
+\begin{equation*}
+    \begin{aligned}
+    &\nabla_{c_{m}}\left(p_m \vc{c}_m^H \vc{h}_m \vc{h}_m^H \vc{c}_m\right) = 2p_m\vc{h}_m \vc{h}_m^H\vc{c}_m \\
+    &\nabla_{c_{m}} \left(p_k \vc{c}_m^H \vc{h}_k \vc{h}_k^H \vc{c}_m\right) = 2p_k\vc{h}_k \vc{h}_k^H\vc{c}_m \\
+    &\nabla_{c_{m}} \left(||\vc{c}_m||^2\right) = \nabla_{c_{m}} \left(\vc{c}_m^H \vc{c}_m\right) = 2\vc{c}_m \\
+    &\nabla_{c_{m}} \left(\sqrt{p_m} \Re{(\vc{c}_m^H \vc{h}_m)}\right) = \sqrt{p_m}\vc{h}_m
+    \end{aligned}
+\end{equation*}
+Quindi ricaviamo la condizione di Ottimalità:
+\begin{equation*}
+    \begin{aligned}
+    &\nabla_{c_{m}} MSE_m = 0 \\
+    &= \underbrace{\left(p_m\vc{h}_m \vc{h}_m^H\vc{c}_m + \sum_{k \neq m} p_k\vc{h}_k \vc{h}_k^H\vc{c}_k + \sigma^2\vc{c}_m \right)}_{\nabla_{c_{m}} \left(\av{|y_m|^2}\right)} = \underbrace{\sqrt{p_m}\vc{h}_m}_{\nabla_{c_{m}} \left(\Re{\left(\av{y_m s_m^*} \right)}\right)} = \\
+    &= \left(p_m\vc{h}_m \vc{h}_m^H + \sum_{k \neq m} p_k\vc{h}_k \vc{h}_k^H + \sigma^2\vc{I}_L \right) \ \vc{c}_m = \sqrt{p_m}\vc{h}_m \\ \\
+    & \vc{c}_m = \sqrt{p_m} \left(p_m\vc{h}_m \vc{h}_m^H + \underbrace{\sum_{k \neq m} p_k\vc{h}_k \vc{h}_k^H + \sigma^2\vc{I}_L}_{\vc{R}_m} \right)^{-1} \vc{h}_m = \\
+    &= \sqrt{p_m} (p_m\vc{h}_m \vc{h}_m^H + \vc{R}_m)^{-1} \vc{h}_m  \\
+    &\text{Usando il Lemma di Inversione delle Matrici:} \\
+    & \left(p\vc{x}\vc{x}^H + \vc{M} \right)^{-1} = \vc{M}^{-1} - \frac{p\vc{M}^{-1} \vc{x} \vc{x}^H \vc{M}^{-1}}{1 + p\vc{x}^H \vc{M}^{-1}\vc{x}} \\
+    &\text{Otterremo:} \\
+    &= \sqrt{p_m} \left(\vc{R}_m^{-1} - \frac{p_m \vc{R}_m^{-1} \vc{h}_m \vc{h}_m^H \vc{R}_m^{-1}}{1 + p_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m} \right) \ \vc{h}_m = \\
+    &= \frac{\sqrt{p_m}}{1 + p_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m} \ \vc{R}_m^{-1} \vc{h}_m \implies \vc{R}_m^{-1} \vc{h}_m
+    \end{aligned}
+\end{equation*}
+
+\subsubsection{SINR dell' LMMSE}
+\begin{equation*}
+\begin{aligned}
+     SINR_m^{LMMSE} &= \frac{p_m |\vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m|^2}{\vc{h}_m^H \vc{R}_m^{-1} \left(\sum_{k \neq m} p_k \vc{h}_k \vc{h}_k^H + \sigma^2 \vc{I}_L \right)\vc{R}_m^{-1} \vc{h}_m } = \frac{p_m |\vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m|^2}{\vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m} = \\ \\
+     &= \frac{p_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m}{\vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m} = p_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m 
+\end{aligned}
+\end{equation*}
+
+
+\subsubsection{Massimizzazione del SINR}
+Ora cerchiamo di massimizzare il Rapporto Segnale Rumore, ovvero cherchiamo il vettore $\vc{c}_m$ tale che:
+\begin{equation*}
+\begin{aligned}
+    &\max_{c_m} \frac{p_m |\vc{c}_m^H \vc{h}_m|^2}{\sum_{k \neq m} p_k |\vc{c}_k^H \vc{h}_k|^2 +\sigma^2 ||\vc{c}_m||^2} \\
+    &= \max_{c_m} \frac{p_m \vc{c}_m^H \vc{h}_m \vc{h}_m^H \vc{c}_m}{\vc{c}_m^H \underbrace{\left(\sum_{k \neq m} p_k \vc{h}_k \vc{h}_k^H  +\sigma^2 \vc{I}\right)}_{\vc{R}_m}\vc{c}_m} = \max_{c_m} \frac{p_m \vc{c}_m^H \vc{h}_m \vc{h}_m^H \vc{c}_m}{\vc{c}_m^H \vc{R}_m \vc{c}_m}
+\end{aligned}
+\end{equation*}
+Se definiamo $\vc{x}_m = \vc{R}_m^{\frac{1}{2}} \vc{c}_m$ avremo:
+\begin{equation*}
+    \max_{x_m} \frac{p_m \overbrace{\vc{x}_m^H\vc{R}^{-1/2}}^{\vc{c}_m^H}\vc{h}_m \vc{h}_m^H  \overbrace{\vc{R}^{-1/2} \vc{x}_m}^{\vc{c}_m}}{||\vc{x}_m||^2} = \max_{x_m} \frac{p_m |\vc{x}_m^H\vc{R}^{-1/2} \vc{h}_m|^2 }{||\vc{x}_m||^2} = p_m \vc{h}_m^H \vc{R}_m^{-1} \vc{h}_m
+\end{equation*}
+Che raggiunge il suo massimo per $\vc{x}_m = \alpha \vc{R}_m^{-1/2}\vc{h}_m \implies \vc{c}_m = \alpha \vc{R}_m^{-1}\vc{h}_m$
+\begin{center}
+    Quindi il Ricevitore LMMSE massimizza il SINR!!
+\end{center}
+
+
+\section{Downlink}
+Consideriamo ora la tratta Downlink con:\\
+\begin{itemize}
+    \item K utenti
+    \item Una BS con L antenne
+\end{itemize}
+La BS trasmetterà la sovrapposizione dei segnali per i K utenti.
+\begin{equation*}
+    \vc{y} = \sum_{k=1}^K \sqrt{p_k} \vc{q}_k \vc{s}_k
+\end{equation*}
+con:
+\begin{equation*}
+    \av{||\vc{y}||^2} = p \sum_{k=1}^K ||\vc{q}_k||^2 = P
+\end{equation*}
+
+L'utente m riceverà il segnale:
+\begin{equation*}
+    r_m = \vc{g}_m^H \left(\sum_{k=1}^K \sqrt{p_k} \vc{q}_k \vc{s}_k \right) + n_m = \sum_{k=1}^K \sqrt{p_k}\vc{g}_m^H\vc{q}_k \vc{s}_k + n_m
+\end{equation*}
+Dato che vogliamo decodificare il simbolo indirizzato all'utente m, riscriviamo il segnale ricevuto $r_m$ così:
+\begin{equation*}
+    r_m = \underbrace{\sqrt{p_m}\vc{g}_m^H\vc{q}_m \vc{s}_m}_{\text{Segnale Utile}} + \underbrace{\sum_{k \neq m} \sqrt{p_k}\vc{g}_m^H\vc{q}_k \vc{s}_k}_{\text{Interferenza Multi-Utente}} + \underbrace{n_m}_{\text{Rumore Termico}}
+\end{equation*}
+
+Calcoliamo la potenza del Segnale Utile:
+\begin{equation*}
+    p_m|\vc{g}_m^H\vc{q}_m|^2 \av{|\vc{s}_m|^2} =    p_m|\vc{g}_m^H\vc{q}_m|^2
+\end{equation*}
+
+Mentre la potenza dell'Interferenza sommata al Rumore è:
+\begin{equation*}
+    \begin{aligned}
+    \av{\left|\sum_{k \neq m} \sqrt{p_k}\vc{g}_m^H\vc{q}_k \vc{s}_k +n_m \right|^2} &= \av{\left|\sum_{k \neq m} \sqrt{p_k}\vc{g}_m^H\vc{q}_k \vc{s}_k \right|^2} + \av{|n_m|^2} = \\
+    &= \sum_{k \neq m} \av{|\sqrt{p_k}\vc{g}_m^H\vc{q}_k \vc{s}_k|^2} + \sigma^2 = \\
+    &= \sum_{k \neq m} p_ |\vc{g}_m^H\vc{q}_k|^2 \av{|\vc{s}_k|^2} +\sigma^2 = \\
+    &=  \sum_{k \neq m} p_ |\vc{g}_m^H\vc{q}_k|^2  +\sigma^2
+    \end{aligned}
+\end{equation*}
+
+Quindi il SINR dell'Utente m sarà:
+\begin{equation*}
+    SINR_m = \frac{p_m|\vc{g}_m^H\vc{q}_m|^2}{\sum_{k \neq m} p_ |\vc{g}_m^H\vc{q}_k|^2  +\sigma^2}
+\end{equation*}
+
+Definendo $C_m$ la Capacità del Canale tra l'Utente m e la BS si ha:
+\begin{equation*}
+    R_m = B\log_2 (1 + SINR_m) \leq C_m
+\end{equation*}
+
+\begin{equation*}
+    EE_m = \frac{B\log_2 (1 + SINR_m)}{P_{c,m} + \mu_m p_m}
+\end{equation*}
+
+
+\subsection{Maximum Trasmit Combining}
+Come abbiamo detto il Filtro Adattato (o MTC) non è il migliore tra i filtri lineari, ma è di sicuro il più semplice e consiste nel massimizzare la potenza del Segnale Utile, mitigando l'Interferenza Multi-Utente con l'uso di antenne multiple.\\
+Sia:
+\begin{equation*}
+    \vc{q}_m = \alpha_m \vc{g}_m, \forall m = 1,...,K
+\end{equation*}
+\\
+\begin{equation*}
+    \begin{aligned}
+     &\textbf{Potenza Interferente} \ \sum_{k \neq m} p_k |\vc{g}_m^H\vc{q}_k|^2 = \alpha_m^2 \sum_{k \neq m} p_k \left|\sum_{l=1}^L g_{m,l}^* g_{k,l}\right|^2 \\
+     &\textbf{Potenza Utile} \  p_m |\vc{g}_m^H\vc{q}_m|^2 = \alpha_m^2 p_m \left|\sum_{l=1}^L |g_{m,l}|^2\right|^2
+    \end{aligned}
+\end{equation*}
+
+\subsection{Zero-Forcing Beamforming}
+Lo Zero-Forcing nel Downlink consiste nel trovare un vettore $\vc{q}_m$ ortogonale a TUTTI i K - 1 canali Interferenti:
+\begin{equation*}
+    r_m = \sqrt{p_m}\vc{g}_m^H\vc{q}_m s_m + \sum_{k \neq m}\sqrt{p_k} \vc{g}_m^H\vc{q}_k s_k + n_m
+\end{equation*}
+Imponiamo che:
+\begin{itemize}
+    \item $\vc{g}_k^H\vc{q}_m=0$ per ogni $k \neq m$
+    \item $\vc{g}_k^H\vc{q}_m=1$ per $k = m$
+\end{itemize}
+
+Vettorizzando e raccogliendo $\vc{g}_k$:
+\begin{equation*}
+\begin{aligned}
+    \vc{r} &= \begin{pmatrix}
+    r_1 \\
+    r_2 \\
+    \vdots \\
+    r_K
+    \end{pmatrix} =
+    \begin{pmatrix}
+    \vc{g}_1^H \left(\sum_{k=1}^K \sqrt{p_k} \vc{q}_k s_k  \right) + n_1 \\
+    \vc{g}_2^H \left(\sum_{k=1}^K \sqrt{p_k} \vc{q}_k s_k  \right) + n_2 \\
+    \vdots \\
+     \vc{g}_K^H \left(\sum_{k=1}^K \sqrt{p_k} \vc{q}_k s_k  \right) + n_K
+     \end{pmatrix} = \\
+     &= \begin{pmatrix}
+      \vc{g}_1^H \\
+      \vc{g}_2^H \\
+      \vdots \\
+      \vc{g}_K^H
+     \end{pmatrix} 
+     \left(\sum_{k=1}^K \sqrt{p_k} \vc{q}_k s_k  \right) + \begin{pmatrix}
+     n_1 \\
+     n_2 \\
+     \vdots \\
+     n_K
+     \end{pmatrix} = \vc{G}^H \vc{Q} \vc{P}^{1/2}\vc{s} +\vc{n}
+\end{aligned}
+\end{equation*}
+con $\vc{P}^{1/2} = diag(\sqrt{p_1},...,\sqrt{p_K})$\\ \\
+Se ora scegliamo $\vc{Q} = \vc{G}(\vc{G}^H\vc{G})^{-1}$ otteniamo:
+\begin{equation*}
+    \begin{aligned}
+        \vc{r} &=  \vc{G}^H \vc{Q} \vc{P}^{1/2}\vc{s} +\vc{n} = \\
+        &= \cancel{\vc{G}^H \vc{G}} \ \cancel{(\vc{G}^H\vc{G})^{-1}}\vc{P}^{1/2}\vc{s} +\vc{n} = \\
+        &=\vc{P}^{1/2}\vc{s} +\vc{n} = \begin{pmatrix}
+        \sqrt{p_1}s_1 \\
+        \vdots \\
+        \sqrt{p_K}s_K
+        \end{pmatrix}
+        + \vc{n}
+    \end{aligned}
+\end{equation*}
+
+Però per fare ciò, la matrice ($\vc{G}^H\vc{G}$) deve essere invertibile, il che richiede $L \geq K$!!!\\ \\
+Quindi è necessario che la BS abbia un numero di antenne almeno uguale al numero degli Utenti Interferenti.
+
+\section{Massive MIMO}
+Il Massive MIMO è una delle principali tecniche delle reti 5G e consiste nell'uso di un gran numero di antenne alla BS.\\ \\
+Tuttavia comporta un maggiore costo nella costruzione e nell'energia dissipata, ma consente di ottenere prestazioni "virtualmente" uguali ad un canale noise-limited con un Filtro Adattato.\\ \\
+Dato che l'Interferenza Multi-Utente diventa trascurabile per L >> K:
+\begin{equation*}
+\begin{aligned}
+        \sum_{k\neq m} \frac{p_k}{||\vc{h}_m||^2} \ |\vc{h}_m^H\vc{h}_k|^2 &= \sum_{k\neq m} \frac{p_k}{||\vc{h}_m||^2} L^2 \left|\frac{1}{L}\sum_{l=1}^L h_{m,l}^* h_{k,l} \right|^2 \approx \\
+        &\approx  \sum_{k\neq m} \frac{p_k}{||\vc{h}_m||^2} L^2 |\av{H_m^* H_k}|^2 = 0
+\end{aligned}
+\end{equation*}
+Invece il segnale utile viene preservato:
+\begin{equation*}
+    \frac{p_k}{||\vc{h}_m||^2}|\vc{h}_m^H\vc{h}_k|^2 =  \frac{p_k}{||\vc{h}_m||^2} \left|\sum_{l=1}^L |h_{m,l}|^2\right|^2 \approx   \frac{p_k}{||\vc{h}_m||^2} L^2 \left|\av{|H_m|^2} \right|^2
+\end{equation*}

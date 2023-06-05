@@ -1,0 +1,148 @@
+\documentclass[titlepage, oneside]{book}
+\usepackage{fancyhdr}
+\usepackage[italian]{babel}
+\pagestyle{fancy}
+\fancyheadoffset[RO,LE]{0.4in}
+\fancyhead[L]{\leftmark }
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{\thepage}
+\setlength{\headsep}{0.3in}
+\fancyfoot[R]{\href{https://linktr.ee/achillecannavale}{Achille Cannavale}}
+\usepackage{pdfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper, total={6in, 10in}]{geometry}
+\renewcommand{\thesection}{\arabic{section}}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{dsfont}
+
+%Per le immagini%
+\usepackage{graphicx} 
+\usepackage{xcolor}
+
+%Per la Matematica%
+\usepackage{mathrsfs,amsmath,amssymb}
+\usepackage[makeroom]{cancel}
+\usepackage{etoolbox}
+
+
+%Font Family%
+\usepackage{mathptmx}
+
+\usepackage{esvect}
+
+%Element Font Size%
+\usepackage{sectsty}
+\sectionfont{\fontsize{18}{20}\selectfont}
+\subsectionfont{\fontsize{16}{16}\selectfont}
+\subsubsectionfont{\fontsize{12}{12}\selectfont}
+
+\usepackage{nccmath}
+\usepackage{pgfplots}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+
+%Colori%
+\usepackage{empheq}
+\usepackage[most]{tcolorbox}
+\usepackage{framed}
+
+%Per i link nell'indice%
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\usepackage{circuitikz}
+\usepackage{wrapfig}
+%SHORTCUT-----------------------------------------------------------
+\newcommand{\rot}[1]{\bar{\nabla} \times  #1}
+\newcommand{\dive}[1]{\bar{\nabla} \cdot  #1}
+\newcommand{\parti}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\und}[1]{\underline{#1}}
+\newcommand{\w}{\omega}
+\newcommand{\h}{\underline{h}}
+\newcommand{\e}{\underline{e}}
+\renewcommand{\H}{\underline{H}}
+\newcommand{\E}{\underline{E}}
+\renewcommand{\b}{\underline{b}}
+\renewcommand{\d}{\underline{d}}
+\renewcommand{\j}{\underline{j}}
+\newcommand{\J}{\underline{J}}
+\renewcommand{\k}{\underline{k}}
+\renewcommand{\r}{\underline{r}}
+
+%SHORTCUT-----------------------------------------------------------
+
+\AtBeginEnvironment{equation*}{\LARGE}
+\usepackage{environ}
+\usepackage{fontawesome5}
+\usepackage{amsfonts} 
+
+  
+  \usepackage{colonequals}
+\newcommand*{\logeq}{\ratio\Leftrightarrow}
+\usetikzlibrary{circuits.ee.IEC}
+\newcommand\esymbol[1]{\tikz[circuit ee IEC] \draw (0,0) -- (.1,0) node [#1,anchor=west,name=s] {} (s.east) -- +(.1,0);}
+
+%-------------------------------------------------------%
+\newtcbox{\mymath}[1][]{%
+    nobeforeafter, math upper, tcbox raise base,
+    enhanced, colframe=blue!30!black,
+    colback=blue!30, boxrule=1pt,
+    #1}
+\NewEnviron{squared}[1][cyan]{
+\begin{empheq}[box={\mymath[colback=#1!10,drop lifted shadow, rounded corners]}]{equation*}
+\LARGE
+    \BODY
+\end{empheq}
+}
+
+\begin{document}
+
+
+\begin{titlepage}
+\centering
+
+ \vspace*{\fill}
+    {\Huge\bfseries
+Misure Elettroniche\par
+}
+\vspace{6ex}
+{\Large
+Riassunto da
+\par}
+
+        \vspace{1.5cm}
+            
+        \textbf{\large Achille Cannavale}
+            
+        \vfill
+
+        \vspace{0.8cm}
+
+   
+\end{titlepage}
+
+\large
+\tableofcontents
+\Large
+\include{Chapter1}
+\include{Chapter2}
+\include{Chapter3}
+\include{Chapter4}
+\include{Chapter5}
+\include{Chapter6}
+\include{Chapter8}
+\include{Chapter11}
+\include{Chapter9}
+\include{Chapter10}
+\include{Chapter7}
+\include{Chapter12}
+\include{Chapter14}
+\end{document}

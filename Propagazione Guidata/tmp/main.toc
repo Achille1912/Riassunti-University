@@ -1,0 +1,74 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {chapter}{\numberline {1}Linee di trasmissione}{3}{chapter.1}%
+\contentsline {section}{\numberline {1}Introduzione}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1}Tensione}{4}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.2}Corrente}{5}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.3}Campo elettrico e magnetico}{5}{subsection.1.1.3}%
+\contentsline {section}{\numberline {2}Caso senza Perdite}{7}{section.1.2}%
+\contentsline {section}{\numberline {3}Caso con Perdite}{9}{section.1.3}%
+\contentsline {chapter}{\numberline {2}V e I, Trasporto di Impedenza, Coefficiente di Riflessione, ROS}{12}{chapter.2}%
+\contentsline {section}{\numberline {1}Soluzione dell'Equazione delle Linee}{12}{section.2.1}%
+\contentsline {subsection}{\numberline {1.1}Soluzione per Onde Viaggianti}{12}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {1.2}Soluzione per Onde Stazionarie}{12}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2}Trasporto dell'Impedenza}{14}{section.2.2}%
+\contentsline {subsection}{\numberline {2.1}Caso Carico uguale a Impedenza della Linea}{15}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2}Caso Impedenza Generica}{15}{subsection.2.2.2}%
+\contentsline {section}{\numberline {3}Coefficiente di Riflessione}{16}{section.2.3}%
+\contentsline {subsection}{\numberline {3.1}Caratteristiche del Coefficiente di Riflessione}{17}{subsection.2.3.1}%
+\contentsline {section}{\numberline {4}Rapporto d'Onda Stazionario}{17}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Potenza lungo una Linea senza Perdite}{21}{chapter.3}%
+\contentsline {section}{\numberline {1}Linea indefinita}{21}{section.3.1}%
+\contentsline {section}{\numberline {2}Due Linee Indefinite}{21}{section.3.2}%
+\contentsline {section}{\numberline {3}Linea con Carico}{24}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Potenza lungo la Linea con Perdite}{26}{chapter.4}%
+\contentsline {section}{\numberline {1}Linea Indefinita}{27}{section.4.1}%
+\contentsline {section}{\numberline {2}Potenza tra due ascisse}{29}{section.4.2}%
+\contentsline {section}{\numberline {3}Linea con Carico}{31}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Adattamenti}{33}{chapter.5}%
+\contentsline {section}{\numberline {1}Adattamento con Stub Serie}{33}{section.5.1}%
+\contentsline {subsection}{\numberline {1.1}Metodo 1}{33}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {1.2}Metodo 2}{36}{subsection.5.1.2}%
+\contentsline {section}{\numberline {2}Adattamento con Stub Parallelo}{38}{section.5.2}%
+\contentsline {subsection}{\numberline {2.1}Metodo 1}{38}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {2.2}Metodo 2}{40}{subsection.5.2.2}%
+\contentsline {section}{\numberline {3}Adattamento Tramite Inverter}{42}{section.5.3}%
+\contentsline {chapter}{\numberline {6}Propagazione di un Segnale a Banda Stretta}{44}{chapter.6}%
+\contentsline {section}{\numberline {1}Linea Non Dispersiva}{46}{section.6.1}%
+\contentsline {section}{\numberline {2}Linea Dispersiva}{47}{section.6.2}%
+\contentsline {subsection}{\numberline {2.1}Grado di Correttezza}{49}{subsection.6.2.1}%
+\contentsline {chapter}{\numberline {7}Risuonatori}{50}{chapter.7}%
+\contentsline {section}{\numberline {1}Circuito Risonante Serie}{50}{section.7.1}%
+\contentsline {section}{\numberline {2}Circuito Risonante Parallelo}{50}{section.7.2}%
+\contentsline {section}{\numberline {3}Circuito Risonante con Perdite}{51}{section.7.3}%
+\contentsline {section}{\numberline {4}Capacità Filtranti di un Risuonatore}{51}{section.7.4}%
+\contentsline {section}{\numberline {5}Risuonatori a Parametri Distribuiti}{52}{section.7.5}%
+\contentsline {subsection}{\numberline {5.1}Metodo Perturbativo}{54}{subsection.7.5.1}%
+\contentsline {section}{\numberline {6}Esempi di Calcolo di Q in circuiti a parametri Distribuiti}{55}{section.7.6}%
+\contentsline {subsection}{\numberline {6.1}Esempio 1}{55}{subsection.7.6.1}%
+\contentsline {subsection}{\numberline {6.2}Esempio 2}{57}{subsection.7.6.2}%
+\contentsline {subsection}{\numberline {6.3}Esempio 3}{58}{subsection.7.6.3}%
+\contentsline {section}{\numberline {7}Condizioni di Risonanza su una Rete Complessa}{59}{section.7.7}%
+\contentsline {subsection}{\numberline {7.1}Esempio 1}{60}{subsection.7.7.1}%
+\contentsline {subsection}{\numberline {7.2}Esempio 2}{61}{subsection.7.7.2}%
+\contentsline {chapter}{\numberline {8}Teorema di Reciprocità}{62}{chapter.8}%
+\contentsline {chapter}{\numberline {9}Parametri Z di un Doppio Bipolo}{64}{chapter.9}%
+\contentsline {section}{\numberline {1}Reciprocità}{64}{section.9.1}%
+\contentsline {section}{\numberline {2}Simmetria}{65}{section.9.2}%
+\contentsline {section}{\numberline {3}Dissipamento Potenza}{65}{section.9.3}%
+\contentsline {chapter}{\numberline {10}Parametri S di un Doppio Bipolo}{66}{chapter.10}%
+\contentsline {section}{\numberline {1}Reciprocità}{66}{section.10.1}%
+\contentsline {section}{\numberline {2}Senza Perdite}{67}{section.10.2}%
+\contentsline {chapter}{\numberline {11}Parametri ABCD di un Doppio Bipolo}{70}{chapter.11}%
+\contentsline {chapter}{\numberline {12}Parametri di un Cavo Coassiale}{73}{chapter.12}%
+\contentsline {section}{\numberline {1}Campo Elettrico e Capacità}{73}{section.12.1}%
+\contentsline {subsection}{\numberline {1.1}Campo Elettrico}{73}{subsection.12.1.1}%
+\contentsline {subsection}{\numberline {1.2}Capacità}{75}{subsection.12.1.2}%
+\contentsline {section}{\numberline {2}Campo Magnetico e Induttanza}{76}{section.12.2}%
+\contentsline {subsection}{\numberline {2.1}Campo Magnetico}{76}{subsection.12.2.1}%
+\contentsline {subsection}{\numberline {2.2}Induttanza}{77}{subsection.12.2.2}%
+\contentsline {chapter}{\numberline {13}Guida a Piatti Paralleli e Guida a Sezione Rettangolare}{79}{chapter.13}%
+\contentsline {section}{\numberline {1}Caso TE}{79}{section.13.1}%
+\contentsline {subsection}{\numberline {1.1}Il Fenomeno del Cut-Off nelle Guide Metalliche}{87}{subsection.13.1.1}%
+\contentsline {section}{\numberline {2}Caso TM}{90}{section.13.2}%
+\contentsline {chapter}{\numberline {14}Diagramma di Dispersione - Velocità di Fase e Velocità di Gruppo}{91}{chapter.14}%

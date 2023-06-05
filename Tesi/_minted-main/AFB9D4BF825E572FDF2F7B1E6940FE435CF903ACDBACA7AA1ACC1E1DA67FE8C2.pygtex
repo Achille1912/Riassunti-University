@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{n}{std}\PYG{o}{::}\PYG{n}{vector}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n}{Vector2f}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{verticesA}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{objA}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{CalculateVertices}\PYG{p}{();}
+\PYG{n}{std}\PYG{o}{::}\PYG{n}{vector}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{n}{Vector2f}\PYG{o}{\PYGZgt{}}\PYG{+w}{ }\PYG{n}{verticesB}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{objB}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{CalculateVertices}\PYG{p}{();}
+\end{Verbatim}

@@ -1,0 +1,212 @@
+\chapter{Parametri di un Cavo Coassiale}
+Le \textbf{equazioni} che descrivono il \textbf{campo elettrico} in un \textbf{cavo coassiale} sono:
+\begin{equation*}
+\begin{dcases}
+    \nabla_t \times \e_t = 0\\
+    \nabla_t \cdot \e_t = \frac{\rho}{v \epsilon}
+\end{dcases}
+\end{equation*}
+Dove $\rho$ è la \textbf{carica sui conduttori}, in particolare:
+\begin{equation*}
+    \int_{P_1}^{P_2} \e_t \cdot \hat{i}_r dr =1
+\end{equation*}
+Mentre le \textbf{equazioni} che regolano il \textbf{campo magnetico}:
+\begin{equation*}
+\begin{dcases}
+    \nabla_t \times \h_t = \frac{j_z}{I} \hat{i}_z \\
+    \nabla_t \cdot \h_t = 0
+\end{dcases}
+\end{equation*}
+Dove $j_z$ è la \textbf{densità} \textbf{di} \textbf{corrente}, indotta dal \textbf{campo} \textbf{magnetico}, che \textbf{circola sui conduttori}, tale che:
+\begin{equation*}
+    \int_{\partial S} \h_t \cdot \hat{i}_l dl = 1
+\end{equation*}
+\section{Campo Elettrico e Capacità}
+\subsection{Campo Elettrico}
+La \textbf{prima equazione del campo elettrico in un cavo coassiale }è soddisfatta se:
+\begin{equation*}
+    \e_t = - \nabla \Phi
+\end{equation*}
+Che sostituita nella seconda ci restituisce:
+\begin{equation*}
+    \dive{\nabla \Phi} = \nabla^2 \Phi = - \frac{\rho}{v \epsilon}
+\end{equation*}
+Analizziamo ora questa equazione tra i due \textbf{conduttori}, dove ovviamente $\rho$ è \textbf{nullo}:
+\begin{equation*}
+    \nabla^2 \Phi = 0
+\end{equation*}
+Ricordiamo che sui \textbf{CEP} la \textbf{componente tangente} del \textbf{campo elettrico} deve essere \textbf{nulla}:
+\begin{equation*}
+    \e_t \cdot \hat{i}_{\varphi} \quad \forall \ Punto \ \in \ C
+\end{equation*}
+Dove C è la \textbf{frontiera} della zona che stiamo considerando, ovvero quella tra i due "tubi" conduttori.\\ \\
+Ma questo contorno è formato da \textbf{due curve non connesse tra loro}.\\ \\
+Sostituiamo ora al \textbf{campo elettrico} la sua versione \textbf{potenziale}:
+\begin{equation*}
+    \nabla_t \Phi \cdot \hat{i}_{\varphi} = \left[\parti{\Phi}{\varphi}\right]_C = 0
+\end{equation*}
+Quindi la \textbf{derivata} qui sopra \textbf{deve fare zero}, ma questo non vuol dire che $\Phi$ deve avere lo stesso valore su entrambe le curve, basta che sia \textbf{costante} \textbf{su} \textbf{entrambe}.\\ \\
+\begin{equation*}
+    \begin{dcases}
+        \Phi(P) = \Phi_1 = 1 \ \forall P \in C_1\\
+        \Phi(P) = \Phi_2 = 0 \ \forall P \in C_2
+    \end{dcases}
+\end{equation*}
+Assumiamo ora $\Phi$ \textbf{funzione solo di r} :
+\begin{equation*}
+    \nabla^2 \Phi = \frac{1}{r} \frac{d}{dr} \left(r \frac{d \Phi}{dr}\right) = 0
+\end{equation*}
+Poniamo:
+\begin{equation*}
+    r \frac{d \Phi}{dr} = A_1, \quad \frac{d \Phi}{dr} = \frac{A_1}{r }
+\end{equation*}
+Quindi facendo integrale da ambo le parti ottengo:
+\begin{equation*}
+    \Phi (r) = A_1 ln(r) + A_2
+\end{equation*}
+Quindi possiamo particolarizzare questa espressione definendo $r_1$ come il \textbf{raggio del tubo interno}, ed $r_2$ il \textbf{raggio di quello esterno}:
+\begin{equation*}
+        \Phi (r_2) = A_1 ln(r_2) + A_2 = \Phi_2 = 0
+\end{equation*}
+quindi da questa ricaviamo che:
+\begin{equation*}
+    A_2 = - A_1 ln(r_2)
+\end{equation*}
+Mentre:
+\begin{equation*}
+        \Phi (r_1) = A_1 ln(r_1) + A_2 = A_1 ln(r_1) \quad \underbrace{- A_1 ln(r_2)}_{A_2}  = \Phi_1 = 1
+\end{equation*}
+Da quest'ultima raccogliamo $A_1$:
+\begin{equation*}
+    A_1(ln(r_1) - ln(r_2)) = A_1 ln\left(\frac{r_1}{r_2}\right) = 1
+\end{equation*}
+Quindi possiamo riscriverci:
+\begin{equation*}
+    \begin{dcases}
+        A_1 = \frac{1}{ln\left(\frac{r_1}{r_2}\right)}\\
+        A_2 = -\frac{1}{ln\left(\frac{r_1}{r_2}\right)} ln(r_2)
+    \end{dcases}
+\end{equation*}
+Allora possiamo riscrivere $\Phi$:
+\begin{equation*}
+\begin{aligned}
+    \Phi &= \underbrace{\frac{1}{ln\left(\frac{r_1}{r_2}\right)}}_{A_1} ln(r) - \underbrace{\frac{1}{ln\left(\frac{r_1}{r_2}\right)} ln(r_2)}_{A_2} =\\ 
+    &= \frac{1}{ln\left(\frac{r_1}{r_2}\right)}\underbrace{\left(ln(r) - ln(r_2)\right)}_{ln\left(\frac{r}{r_2}\right)}
+\end{aligned}
+\end{equation*}
+Possiamo sostituire questa espressione nel \textbf{campo elettrico}:
+\begin{equation*}
+    \e_t = - \nabla_t \Phi = - \underbrace{\frac{d\Phi}{dr}}_{\frac{A_1}{r}} \hat{i}_r =  -\frac{1}{ln\left(\frac{r_1}{r_2}\right)} \frac{1}{r} \hat{i}_r = \frac{1}{ln\left(\frac{r_2}{r_1}\right)} \frac{1}{r} \hat{i}_r
+\end{equation*}
+\subsection{Capacità}
+Sappiamo che:
+\begin{equation*}
+    W_e = \frac{1}{2}CV^2
+\end{equation*}
+Ma abbiamo imposto V = 1, quindi diventa:
+\begin{equation*}
+    W_e = \frac{1}{2}C
+\end{equation*}
+Ma come calcolo $W_e$?
+\begin{equation*}
+\begin{aligned}
+    W_e &= \frac{1}{2}\epsilon \int_0^{2\pi} \int_{r_1}^{r_2}|\e|^2 r \ d\varphi \ dr = \\
+    &= \frac{1}{2}\epsilon \underbrace{\int_0^{2\pi}}_{2\pi}  \int_{r_1}^{r_2} \left[\frac{1}{ln\left(\frac{r_2}{r_1}\right)}\right]^2 \frac{1}{r^2} r \ d\varphi \ dr = \\
+    &= \frac{1}{2}\epsilon 2\pi  \int_{r_1}^{r_2} \left[\frac{1}{ln\left(\frac{r_2}{r_1}\right)}\right]^2 \frac{1}{r}\ dr=\\
+    &= \frac{1}{2}\epsilon 2\pi \left[\frac{1}{ln\left(\frac{r_2}{r_1}\right)}\right]^2  \underbrace{\int_{r_1}^{r_2} \frac{1}{r} dr}_{ln\left(\frac{r_2}{r_1}\right)} =\\
+    &= \frac{1}{2}\epsilon 2\pi \left[\frac{1}{ln\left(\frac{r_2}{r_1}\right)}\right]^{\cancel{2}} \cdot \cancel{ln\left(\frac{r_2}{r_1}\right)}
+\end{aligned}
+\end{equation*}
+Quindi la \textbf{capacità} sarà:
+\begin{equation*}
+    C = \epsilon 2\pi \frac{1}{ln\left(\frac{r_2}{r_1}\right)}
+\end{equation*}
+\section{Campo Magnetico e Induttanza}
+\subsection{Campo Magnetico}
+Per il \textbf{campo magnetico} analizziamo la \textbf{seconda equazione}:
+\begin{equation*}
+    \nabla_t \cdot \mu \h_t = 0 
+\end{equation*}
+Ma ricordiamo che possiamo esprimere il \textbf{campo magnetico} attraverso il suo \textbf{potenziale scalare}:
+\begin{equation*}
+    \mu \h_t = \nabla_t \times (\psi \hat{i}_z) = (\nabla_t \psi) \times \hat{i}_z
+\end{equation*}
+quindi considerando \textbf{lo spazio tra i due conduttori}, le \textbf{equazioni} da risolvere saranno:
+\begin{equation*}
+    \begin{dcases}
+         \mu \h_t = \nabla_t \times (\psi \hat{i}_z) = (\nabla_t \psi) \times \hat{i}_z\\
+         \nabla_t \cdot \mu \h_t = 0 
+    \end{dcases}
+\end{equation*}
+Con la \textbf{condizione al contorno} che la \textbf{componente normale} di $\b$ deve essere \textbf{nulla}:
+\begin{equation*}
+    \mu \h_t \cdot \hat{i}_n = 0 \ \forall \ P \ \in \ C
+\end{equation*}
+Ovvero:
+\begin{equation*}
+    \mu \h_t \cdot \hat{i}_n =  (\nabla_t \psi) \times \hat{i}_z \cdot \hat{i}_n = \parti{\psi}{c} = 0 \ \forall \ P \ \in \ C
+\end{equation*}
+
+\begin{equation*}
+    \begin{dcases}
+        \psi(r) = \psi(r_1) = \psi_1 \ \forall P \in C_1\\
+        \psi(r) = \psi(r_2) = \psi_2 \ \forall P \in C_2
+    \end{dcases}
+\end{equation*}
+Con calcoli analoghi al caso del \textbf{campo elettrico} otteniamo l'espressione:
+\begin{equation*}
+    \psi(r) = B_1 ln(r) + B_2
+\end{equation*}
+Quindi:
+\begin{equation*}
+    \mu \h_t = (\nabla_t \psi) \times \hat{i}_z = B_1 \frac{1}{r} \hat{i}_r \times \hat{i}_z = - B_1 \frac{1}{r} \hat{i}_{\varphi}
+\end{equation*}
+Calcoliamone l'integrale sul \textbf{bordo di una superficie che sta tra i due conduttori}:
+\begin{equation*}
+    \int_{\partial S} \h_t \cdot \hat{i}_{\varphi} r d\varphi = \int_{[0,2\pi]} - \frac{B_1}{\mu} d\varphi = -2\pi \frac{B_1}{\mu} = I = 1
+\end{equation*}
+Dove possiamo calcolare:
+\begin{equation*}
+    B_1 = \frac{-\mu}{2\pi}
+\end{equation*}
+E:
+\begin{equation*}
+    \h_t = \frac{1}{2\pi r} \hat{i}_{\varphi}
+\end{equation*}
+
+
+\subsection{Induttanza}
+Sappiamo che:
+\begin{equation*}
+    W_m = \frac{1}{2}LI^2
+\end{equation*}
+Ma abbiamo imposto I = 1, quindi diventa:
+\begin{equation*}
+    W_m = \frac{1}{2}L
+\end{equation*}
+Ma come calcolo $W_m$?
+\begin{equation*}
+\begin{aligned}
+    W_m &= \frac{1}{2}\mu \int_0^{2\pi} \int_{r_1}^{r_2} |\h|^2 r \ d\varphi \ dr = \\
+    &= \frac{1}{2}\mu \underbrace{\int_0^{2\pi}}_{2\pi}  \int_{r_1}^{r_2}\frac{1}{(2\pi r)^2} r \ d\varphi \ dr = \\
+    &= \frac{1}{2}\mu \cancel{2\pi} \int_{r_1}^{r_2} \frac{1}{(2\pi r)^{\cancel{2}}} \cancel{r}\ dr=\\
+    &= \frac{1}{2}\mu \int_{r_1}^{r_2} \frac{1}{(2\pi r)} dr =\\
+    &= \frac{1}{2}\frac{\mu}{2\pi} ln\left(\frac{r_2}{r_1}\right)
+\end{aligned}
+\end{equation*}
+Quindi l'\textbf{induttanza} sarà:
+\begin{equation*}
+    L = \frac{\mu}{2\pi} ln\left(\frac{r_2}{r_1}\right)
+\end{equation*}
+\vspace{2pt}
+In conclusione:
+\begin{squared}[violet]
+    \begin{dcases}
+        L = \frac{\mu}{2\pi} ln\left(\frac{r_2}{r_1}\right)\\
+        C = \epsilon 2\pi \frac{1}{ln\left(\frac{r_2}{r_1}\right)}
+    \end{dcases}
+\end{squared}
+In particolare:
+\begin{equation*}
+    LC = \epsilon \mu
+\end{equation*}

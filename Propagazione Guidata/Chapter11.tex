@@ -1,0 +1,85 @@
+\chapter{Parametri ABCD di un Doppio Bipolo}
+Per l'analisi di \textbf{bipoli} in \textbf{cascata} è conveniente che la \textbf{tensione} e la \textbf{corrente} in \textbf{uscita dal primo doppio bipolo} risultino \textbf{l'ingresso al secondo}:
+\begin{squared}[violet]
+\begin{dcases}
+    V_1 = A V_2 + B I_2\\
+    I_1 = C V_2 + D I_2
+\end{dcases}    
+\end{squared}
+Dove:
+\begin{itemize}
+    \item $A = \frac{V_1}{V_2}\big|_{I_2 = 0}$ \textbf{Adimensionale} Inverso di un \textbf{Guadagno} di \textbf{tensione} a \textbf{vuoto}
+    \item $B = \frac{V_1}{I_2}\big|_{V_2 = 0}$ \textbf{Transimpedenza} tra ingresso e uscita \textbf{cortocircuitata}
+    \item $C = \frac{I_1}{V_2}\big|_{I_2 = 0}$ \textbf{Transimpedenza} tra ingresso e uscita \textbf{aperta}
+    \item $D = \frac{I_1}{I_2}\big|_{V_2 = 0}$ \textbf{Adimensionale} Inverso di un \textbf{Guadagno} di \textbf{corrente} di \textbf{cortocircuito}
+\end{itemize}
+Un \textbf{doppio bipolo lineare} può essere descritto anche dai \textbf{parametri Z}:
+\begin{equation*}
+    \begin{dcases}
+    V'_1 = Z_{11} I'_1 + Z_{12} I'_2\\
+    V'_2 = Z_{21} I'_1 + Z_{22} I'_2
+    \end{dcases}
+\end{equation*}
+Manipoliamo il sistema \textbf{ABCD} per ricondurci al \textbf{sistema dei parametri Z}:
+\begin{equation*}
+    V_2 = \frac{1}{C} I_1 - \frac{D}{C} I_2
+\end{equation*}
+Che sostituiamo nella prima:
+\begin{equation*}
+\begin{aligned}
+    V_1 &= \frac{A}{C} I_1 - \frac{AD}{C} I_2 + B I_2 =\\
+    &= \frac{A}{C} I_1 - \frac{(AD - BC)}{C} I_2
+\end{aligned}    
+\end{equation*}
+
+Quindi abbiamo ottenuto:
+\begin{equation*}
+    \begin{dcases}
+        V_1 = \frac{A}{C} I_1 - \frac{(AD - BC)}{C} I_2\\
+        V_2 = \frac{1}{C} I_1 - \frac{D}{C} I_2
+    \end{dcases}
+\end{equation*}
+Notando le seguenti uguaglianze tra i due sistemi:
+\begin{equation*}
+    \begin{dcases}
+        V_1 = V'_1\\
+        I_1 = I'_1\\
+        V_2 = V'_2\\
+        I_2 = - I'_2
+    \end{dcases}
+\end{equation*}
+Che sostituiamo nel sistema appena ottenuto:
+\begin{equation*}
+    \begin{dcases}
+        V'_1 = \frac{A}{C} I'_1 + \frac{(AD - BC)}{C} I'_2\\
+        V'_2 = \frac{1}{C} I'_1 + \frac{D}{C} I'_2
+    \end{dcases}
+\end{equation*}
+Quindi identifichiamo:
+\begin{equation*}
+    \begin{bmatrix}
+        Z_{11} = \frac{A}{C} & Z_{12} = \frac{AD-BC}{C}\\
+        Z_{21} = \frac{1}{C} & Z_{22} = \frac{D}{C}
+    \end{bmatrix}
+\end{equation*}
+Quindi possiamo \textbf{sfruttare le proprietà dimostrate nel capitolo dei parametri Z}, come la \textbf{reciprocità}:
+\begin{equation*}
+    Z_{12} = Z_{21} \implies \frac{1}{C} = \frac{AD-BC}{C} \implies AD - BC = 1
+\end{equation*}
+E \textbf{l'assenza di perdite}:
+\begin{equation*}
+    Re\left\{Z_{11}\right\} = Re\left\{\frac{A}{C}\right\} = 0
+\end{equation*}
+\begin{equation*}
+    Re\left\{Z_{22}\right\} = Re\left\{\frac{D}{C}\right\} = 0
+\end{equation*}
+\begin{equation*}
+    Re\left\{Z_{12}\right\} =  Re\left\{Z_{21}\right\} = Re\left\{\frac{1}{C}\right\} = 0
+\end{equation*}
+Che si verificano se:
+\begin{itemize}
+    \item $Re\left\{C\right\} = 0$
+    \item $Im\left\{A\right\} = 0$
+    \item $Im\left\{D\right\} = 0$
+    \item $Re\left\{B\right\} = 0$
+\end{itemize}
